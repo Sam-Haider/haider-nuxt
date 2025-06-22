@@ -1,3 +1,5 @@
 <template>
-    Under Construction!
+    <Hero />
+    <About />
+    <Contact />
 </template>
