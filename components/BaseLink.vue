@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   to: string
   isExternal?: boolean
   }>(), {
