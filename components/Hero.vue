@@ -1,5 +1,5 @@
 <template>
-    <div class="h-[100vh] bg-gradient-to-b from-black to-gray-800 flex justify-center bg-red mb-4">
+    <div class="h-[100vh] bg-gradient-to-b from-black to-gray-800 flex justify-center bg-red">
         <div class="flex items-center justify-center gap-6 flex-col lg:flex-row">
             <div class="w-[100%] lg:w-[50%] max-w-[600px] flex justify-center items-center">
                 <img src="/images/profile.png" class="rounded-[50%] w-[70%]" />
