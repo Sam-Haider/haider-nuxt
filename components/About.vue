@@ -1,20 +1,7 @@
 <template>
-    <div class="p-8 flex flex-col gap-4 text-xl md:text-2xl max-w-[800px] mx-auto border border-2 border-white border-t-0 border-l-0 border-r-0">
+    <div class="p-8 flex flex-col gap-8 text-xl md:text-2xl max-w-[800px] mx-auto border border-2 border-white border-t-0 border-l-0 border-r-0">
         <p>
-            Hey there! Thanks for visiting my website! To tell you a little about myself (beyond what you'll find on <BaseLink to="https://www.linkedin.com/in/sam-m-haider/">LinkedIn</BaseLink>), I was born in 
-            <ToggleButton
-                class="relative inline-block cursor-pointer text-black focus:outline-none group" tabindex="0" @click="toggleDhaka" :isEnabled="!!showDhaka">
-            Bangladesh
-            <NuxtImg
-                src="/images/dhaka.png"
-                alt="Dhaka skyline at dusk"
-                width="400"
-                class="absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 rounded-md shadow-lg opacity-0 pointer-events-none transition-opacity duration-800 group-focus-visible:opacity-100 max-w-none"
-                :class="showDhaka ? 'opacity-100' : 'opacity-0'"
-            />
-            </ToggleButton>
-            
-            , grew up in the Boston area, and currently live in metro Atlanta. Outside of work, my day mostly consists of chasing after my darling rambunctious 17 month old girl. I love to read and write, and exercising and spending time outdoors are my primary sources of nourishment.
+            Hey there! Thanks for visiting my website! To tell you a little about myself (beyond what you'll find on <BaseLink to="https://www.linkedin.com/in/sam-m-haider/">LinkedIn</BaseLink>), I was born in Bangladesh, grew up in the Boston area, and currently live in metro Atlanta. Outside of work, my day mostly consists of chasing after my darling rambunctious 17 month old girl. I love to read and write, and exercising and spending time outdoors are my primary sources of nourishment.
         </p>
         <p>
             I've always loved technology, and am forever grateful that I was able to <BaseLink to="https://www.linkedin.com/pulse/my-road-software-engineering-samnoon-haider/">make a big career leap</BaseLink> from healthcare project management to software engineering in 2019. Since 2023, I've been working as a front-end focused dev on an amazing scrum team responsible for building out the <BaseLink to="https://www.nfhsnetwork.com/">NFHS Network</BaseLink> web application. Feel free to check out the website to see examples of my work in a large-scale production environment. 
