@@ -11,7 +11,7 @@
                 I've always loved technology, and am forever grateful that I was able to <BaseLink to="https://www.linkedin.com/pulse/my-road-software-engineering-samnoon-haider/">make a big career leap</BaseLink> from healthcare project management to software engineering in 2019. Since 2023, I've been working as a front-end focused dev on an amazing scrum team responsible for building out the <BaseLink to="https://www.nfhsnetwork.com/">NFHS Network</BaseLink> web application. Feel free to check out the website to see examples of my work in a large-scale production environment. 
             </p>
             <p>
-            Something interesting about me is that my business and management background seems to compel me to think about things a little bit differently than many of my peers, but I've found that it's been a tremendous asset on product-oriented teams. 
+            Something interesting about me is that my business and management background seems to compel me to think about things a little bit differently than many of my peers, but I've found that it's been a tremendous asset on autonomous, product-centric teams. 
             </p>
             <p>
             To learn more about how I think and communicate, check out my <BaseLink to="https://samnoonhaider.wordpress.com/">Blog</BaseLink> or <BaseLink to="https://www.youtube.com/watch?v=-J_Z6OPxOL0&list=PLhWGlxeNLmUAAgK5_OJk22PZC8oRvKMPD&index=5">Youtube Channel</BaseLink>. It's been a little while since I've posted new content, but they're still good representations.
