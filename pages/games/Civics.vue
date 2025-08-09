@@ -594,6 +594,28 @@ function keyHandler(e: KeyboardEvent) {
 
 onMounted(() => window.addEventListener("keydown", keyHandler));
 onBeforeUnmount(() => window.removeEventListener("keydown", keyHandler));
+
+const prevActive = ref(false);
+const nextActive = ref(false);
+const flipActive = ref(false);
+const shuffleActive = ref(false);
+
+const prevStyle = computed(() => ({
+  backgroundColor: prevActive.value ? "#1c9e5f" : "transparent",
+  scale: prevActive.value ? "1.1" : "1",
+}));
+const nextStyle = computed(() => ({
+  backgroundColor: nextActive.value ? "#1c9e5f" : "transparent",
+  scale: nextActive.value ? "1.1" : "1",
+}));
+const flipStyle = computed(() => ({
+  backgroundColor: flipActive.value ? "#1c9e5f" : "transparent",
+  scale: flipActive.value ? "1.1" : "1",
+}));
+const shuffleStyle = computed(() => ({
+  backgroundColor: shuffleActive.value ? "#1c9e5f" : "transparent",
+  scale: shuffleActive.value ? "1.1" : "1",
+}));
 </script>
 
 <template>
@@ -613,33 +635,45 @@ onBeforeUnmount(() => window.removeEventListener("keydown", keyHandler));
     <div class="mb-4 flex items-center justify-between">
       <div class="flex gap-2 text-2xl">
         <button
-          class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-110 active:bg-green-400 cursor-pointer touch-manipulation select-none"
+          class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
           @click="prev"
           aria-label="Previous"
+          @pointerdown="prevActive = true"
+          @pointerup="prevActive = false"
+          :style="prevStyle"
         >
           <UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" />
         </button>
 
         <button
-          class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-110 active:bg-green-400 cursor-pointer touch-manipulation select-none"
+          class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
           @click="next"
           aria-label="Next"
+          @pointerdown="nextActive = true"
+          @pointerup="nextActive = false"
+          :style="nextStyle"
         >
           <UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" />
         </button>
 
         <button
-          class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-110 active:bg-green-400 cursor-pointer touch-manipulation select-none"
+          class="rounded-md px-3 py-1 border transition-transform duration-200"
           @click="flip"
           aria-label="Flip"
+          @pointerdown="flipActive = true"
+          @pointerup="flipActive = false"
+          :style="flipStyle"
         >
           Flip
         </button>
 
         <button
-          class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-110 active:bg-green-400 cursor-pointer touch-manipulation select-none"
+          class="rounded-md px-3 py-1 border transition-transform duration-200"
           @click="shuffle"
           aria-label="Shuffle"
+          @pointerdown="shuffleActive = true"
+          @pointerup="shuffleActive = false"
+          :style="shuffleStyle"
         >
           Shuffle
         </button>
