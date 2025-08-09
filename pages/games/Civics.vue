@@ -96,7 +96,7 @@ const cards = ref<Card[]>([
   { q: "We elect a U.S. Senator for how many years?", a: "Six (6)" },
   {
     q: "Who is one of your state’s U.S. Senators now?",
-    a: "Answers will vary. (D.C. and territories have no U.S. Senators.)",
+    a: "John Ossof. Raphael Warnock",
   },
   {
     q: "The House of Representatives has how many voting members?",
@@ -105,7 +105,7 @@ const cards = ref<Card[]>([
   { q: "We elect a U.S. Representative for how many years?", a: "Two (2)" },
   {
     q: "Name your U.S. Representative.",
-    a: "Answers will vary. (Territories may provide the Delegate/Resident Commissioner.)",
+    a: "Barry Loudermilk",
   },
   { q: "Who does a U.S. Senator represent?", a: "All people of the state" },
   {
@@ -198,11 +198,11 @@ const cards = ref<Card[]>([
   },
   {
     q: "Who is the Governor of your state now?",
-    a: "Answers will vary. (D.C. does not have a Governor.)",
+    a: "Brian Kemp",
   },
   {
     q: "What is the capital of your state?",
-    a: "Answers will vary. (D.C. is not a state; territories should name their capital.)",
+    a: "Atlanta",
   },
   {
     q: "What are the two major political parties in the United States?",
