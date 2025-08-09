@@ -602,19 +602,19 @@ const shuffleActive = ref(false);
 
 const prevStyle = computed(() => ({
   backgroundColor: prevActive.value ? "#1c9e5f" : "transparent",
-  scale: prevActive.value ? "1.1" : "1",
+  scale: prevActive.value ? "1.2" : "1",
 }));
 const nextStyle = computed(() => ({
   backgroundColor: nextActive.value ? "#1c9e5f" : "transparent",
-  scale: nextActive.value ? "1.1" : "1",
+  scale: nextActive.value ? "1.2" : "1",
 }));
 const flipStyle = computed(() => ({
   backgroundColor: flipActive.value ? "#1c9e5f" : "transparent",
-  scale: flipActive.value ? "1.1" : "1",
+  scale: flipActive.value ? "1.2" : "1",
 }));
 const shuffleStyle = computed(() => ({
   backgroundColor: shuffleActive.value ? "#1c9e5f" : "transparent",
-  scale: shuffleActive.value ? "1.1" : "1",
+  scale: shuffleActive.value ? "1.2" : "1",
 }));
 </script>
 
@@ -680,7 +680,7 @@ const shuffleStyle = computed(() => ({
       </div>
     </div>
     <!-- Flip card -->
-    <div class="relative h-170 [perspective:1000px]">
+    <div class="relative h-[65vh] [perspective:1000px]">
       <div
         class="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d]"
         :class="flipped ? '[transform:rotateY(180deg)]' : ''"
@@ -694,12 +694,17 @@ const shuffleStyle = computed(() => ({
 
         <!-- Back -->
         <div
-          class="absolute inset-0 rounded-2xl border p-6 grid place-items-center text-center bg-gray-50 [transform:rotateY(180deg)] [backface-visibility:hidden] text-black"
+          class="absolute inset-0 rounded-2xl border p-6 grid place-items-center text-center bg-gray-50 [transform:rotateY(180deg)] [backface-visibility:hidden] text-black overflow-y-auto"
         >
           <div class="space-y-3 text-2xl">
             <template v-if="Array.isArray(current.a)">
               <ul class="list-disc text-left mx-auto max-w-md pl-5">
-                <li v-for="(ans, idx) in current.a" :key="idx">{{ ans }}</li>
+                <li v-for="(ans, idx) in current.a" :key="idx">
+                  {{ ans }} Lorem ipsum dolor sit amet consectetur adipisicing
+                  elit. Fuga quasi magnam veniam, dicta quo obcaecati, sapiente
+                  consequuntur quia, eius officiis maxime impedit consectetur
+                  laudantium vel inventore? Dolorum deserunt iure rerum.
+                </li>
               </ul>
             </template>
             <template v-else>
@@ -719,6 +724,8 @@ const shuffleStyle = computed(() => ({
         </div>
       </div>
     </div>
-    <div class="mt-2 text-lg text-white">Card {{ i + 1 }} / {{ total }}</div>
+    <div class="mt-2 text-lg text-white">
+      Question {{ i + 1 }} / {{ total }}
+    </div>
   </div>
 </template>
