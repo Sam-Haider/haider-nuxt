@@ -158,10 +158,49 @@ onBeforeUnmount(() => window.removeEventListener('keydown', keyHandler))
     </div>
     <div class="mb-4 flex items-center justify-between">
       <div class="flex gap-2 text-2xl">
-        <button class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="prev" aria-label="Previous"><UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" /></button>
-        <button class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="next" aria-label="Next"><UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" /></button>
-        <button class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="flip" aria-label="Flip">Flip</button>
-        <button class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="shuffle" aria-label="Shuffle">Shuffle</button>
+<button
+  class="rounded-md px-3 py-1 border flex items-center 
+         transition-all duration-200 ease-out 
+         active:scale-110 active:bg-green-400 
+         cursor-pointer touch-manipulation select-none"
+  @click="prev"
+  aria-label="Previous"
+>
+  <UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" />
+</button>
+
+<button
+  class="rounded-md px-3 py-1 border flex items-center 
+         transition-all duration-200 ease-out 
+         active:scale-110 active:bg-green-400 
+         cursor-pointer touch-manipulation select-none"
+  @click="next"
+  aria-label="Next"
+>
+  <UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" />
+</button>
+
+<button
+  class="rounded-md px-3 py-1 border 
+         transition-all duration-200 ease-out 
+         active:scale-110 active:bg-green-400 
+         cursor-pointer touch-manipulation select-none"
+  @click="flip"
+  aria-label="Flip"
+>
+  Flip
+</button>
+
+<button
+  class="rounded-md px-3 py-1 border 
+         transition-all duration-200 ease-out 
+         active:scale-110 active:bg-green-400 
+         cursor-pointer touch-manipulation select-none"
+  @click="shuffle"
+  aria-label="Shuffle"
+>
+  Shuffle
+</button>
       </div>
     </div>
     <!-- Flip card -->
