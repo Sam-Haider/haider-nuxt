@@ -700,10 +700,7 @@ const shuffleStyle = computed(() => ({
             <template v-if="Array.isArray(current.a)">
               <ul class="list-disc text-left mx-auto max-w-md pl-5">
                 <li v-for="(ans, idx) in current.a" :key="idx">
-                  {{ ans }} Lorem ipsum dolor sit amet consectetur adipisicing
-                  elit. Fuga quasi magnam veniam, dicta quo obcaecati, sapiente
-                  consequuntur quia, eius officiis maxime impedit consectetur
-                  laudantium vel inventore? Dolorum deserunt iure rerum.
+                  {{ ans }}
                 </li>
               </ul>
             </template>
