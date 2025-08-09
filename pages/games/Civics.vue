@@ -632,55 +632,8 @@ const shuffleStyle = computed(() => ({
         class="w-8 h-auto"
       />
     </div>
-    <div class="mb-4 flex items-center justify-between">
-      <div class="flex gap-2 text-2xl">
-        <button
-          class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
-          @click="prev"
-          aria-label="Previous"
-          @pointerdown="prevActive = true"
-          @pointerup="prevActive = false"
-          :style="prevStyle"
-        >
-          <UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" />
-        </button>
-
-        <button
-          class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
-          @click="next"
-          aria-label="Next"
-          @pointerdown="nextActive = true"
-          @pointerup="nextActive = false"
-          :style="nextStyle"
-        >
-          <UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" />
-        </button>
-
-        <button
-          class="rounded-md px-3 py-1 border transition-transform duration-200"
-          @click="flip"
-          aria-label="Flip"
-          @pointerdown="flipActive = true"
-          @pointerup="flipActive = false"
-          :style="flipStyle"
-        >
-          Flip
-        </button>
-
-        <button
-          class="rounded-md px-3 py-1 border transition-transform duration-200"
-          @click="shuffle"
-          aria-label="Shuffle"
-          @pointerdown="shuffleActive = true"
-          @pointerup="shuffleActive = false"
-          :style="shuffleStyle"
-        >
-          Shuffle
-        </button>
-      </div>
-    </div>
     <!-- Flip card -->
-    <div class="relative h-[65vh] [perspective:1000px]">
+    <div class="relative h-[65vh] [perspective:1000px]" @click="flip">
       <div
         class="absolute inset-0 transition-transform duration-500 [transform-style:preserve-3d]"
         :class="flipped ? '[transform:rotateY(180deg)]' : ''"
@@ -721,8 +674,39 @@ const shuffleStyle = computed(() => ({
         </div>
       </div>
     </div>
-    <div class="mt-2 text-lg text-white">
-      Question {{ i + 1 }} / {{ total }}
+    <div class="flex justify-center gap-5 text-4xl w-full mt-5">
+      <button
+        class="rounded-md py-1 px-3 rounded-xl border transition-transform duration-200 flex items-center border-2"
+        @click="shuffle"
+        aria-label="Shuffle"
+        @pointerdown="shuffleActive = true"
+        @pointerup="shuffleActive = false"
+        :style="shuffleStyle"
+      >
+        Next
+        <UIcon name="i-material-symbols-play-arrow" class="w-12" />
+      </button>
+      <!-- <button
+        class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
+        @click="prev"
+        aria-label="Previous"
+        @pointerdown="prevActive = true"
+        @pointerup="prevActive = false"
+        :style="prevStyle"
+      >
+        <UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" />
+      </button>
+
+      <button
+        class="rounded-md px-3 py-1 border flex items-center transition-transform duration-200"
+        @click="next"
+        aria-label="Next"
+        @pointerdown="nextActive = true"
+        @pointerup="nextActive = false"
+        :style="nextStyle"
+      >
+        <UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" />
+      </button> -->
     </div>
   </div>
 </template>
