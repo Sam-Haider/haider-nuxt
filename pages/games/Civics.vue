@@ -152,12 +152,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', keyHandler))
 
 <template>
   <div class="mx-auto max-w-xl p-4 select-none">
+    <div class="flex justify-between mb-4">
+    <img src="https://flagcdn.com/bd.svg" alt="Bangladesh flag" class="w-8 h-auto" />
+    <img src="https://flagcdn.com/us.svg" alt="United States flag" class="w-8 h-auto" />
+    </div>
     <div class="mb-4 flex items-center justify-between">
       <div class="flex gap-2 text-2xl">
-        <button class="rounded-md px-3 py-1 border flex items-center" @click="prev" aria-label="Previous"><UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" /></button>
-        <button class="rounded-md px-3 py-1 border flex items-center" @click="next" aria-label="Next"><UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" /></button>
-        <button class="rounded-md px-3 py-1 border" @click="flip" aria-label="Flip">Flip</button>
-        <button class="rounded-md px-3 py-1 border" @click="shuffle" aria-label="Shuffle">Shuffle</button>
+        <button class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="prev" aria-label="Previous"><UIcon name="i-heroicons-arrow-left-20-solid" class="w-6 h-6" /></button>
+        <button class="rounded-md px-3 py-1 border flex items-center transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="next" aria-label="Next"><UIcon name="i-heroicons-arrow-right-20-solid" class="w-6 h-6" /></button>
+        <button class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="flip" aria-label="Flip">Flip</button>
+        <button class="rounded-md px-3 py-1 border transition-all duration-200 ease-out active:scale-95 active:bg-green-400" @click="shuffle" aria-label="Shuffle">Shuffle</button>
       </div>
     </div>
     <!-- Flip card -->
