@@ -602,19 +602,19 @@ const shuffleActive = ref(false);
 
 const prevStyle = computed(() => ({
   backgroundColor: prevActive.value ? "#1c9e5f" : "transparent",
-  scale: prevActive.value ? "1.2" : "1",
+  scale: prevActive.value ? "1.1" : "1",
 }));
 const nextStyle = computed(() => ({
   backgroundColor: nextActive.value ? "#1c9e5f" : "transparent",
-  scale: nextActive.value ? "1.2" : "1",
+  scale: nextActive.value ? "1.1" : "1",
 }));
 const flipStyle = computed(() => ({
   backgroundColor: flipActive.value ? "#1c9e5f" : "transparent",
-  scale: flipActive.value ? "1.2" : "1",
+  scale: flipActive.value ? "1.1" : "1",
 }));
 const shuffleStyle = computed(() => ({
   backgroundColor: shuffleActive.value ? "#1c9e5f" : "transparent",
-  scale: shuffleActive.value ? "1.2" : "1",
+  scale: shuffleActive.value ? "1.1" : "1",
 }));
 </script>
 
