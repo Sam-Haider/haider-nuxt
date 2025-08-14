@@ -2047,6 +2047,7 @@ const words = ref([
   "ritual",
   "rivals",
   "rivers",
+  "robber",
   "robots",
   "robust",
   "rocket",

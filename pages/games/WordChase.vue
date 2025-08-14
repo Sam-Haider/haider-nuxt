@@ -53,6 +53,7 @@
 import { ref, computed, watch, onMounted } from "vue";
 import Keyboard from "~/components/WordChase/Keyboard.vue";
 import { useWordList } from "~/composables/WordChase/useWordList";
+import { useOpenAI } from "~/composables/WordChase/useOpenAI";
 
 const { words } = useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
@@ -156,5 +157,9 @@ watch([gameOver, time], ([over, t], [prevOver, prevT]) => {
     }
   }
   return () => clearTimeout(timerId);
+});
+
+onMounted(() => {
+  // useOpenAI();
 });
 </script>
