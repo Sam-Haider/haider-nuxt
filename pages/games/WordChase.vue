@@ -1,17 +1,19 @@
 <template>
   <div class="game-container">
-    <div class="title">WordChase</div>
-    <div class="time-label">
-      TIME REMAINING: <span class="time">{{ time }}</span>
+    <div class="flex flex-col gap-2 items-center">
+      <div class="text-4xl">WordChase</div>
+      <div class="text-lg">
+        TIME REMAINING: <span class="time">{{ time }}</span>
+      </div>
+      <div class="text-lg">
+        SCORE: <span class="score">{{ score }}</span>
+      </div>
     </div>
-    <div class="score-label">
-      SCORE: <span class="score">{{ score }}</span>
-    </div>
-    <div class="tile-container">
+    <div class="my-4 flex gap-2 justify-center p-3">
       <div
         v-for="(letter, idx) in letters"
         :key="idx"
-        class="tile"
+        class="border-b border-white"
         :class="{ correct: isCorrectWord }"
       >
         {{ letter }}
@@ -19,12 +21,18 @@
     </div>
     <div class="message">{{ message }}</div>
     <Keyboard :gameOver="gameOver" @key-press="handleClick" />
-    <button :disabled="!gameOver" class="play-btn" @click="handlePlay">
-      PLAY
-    </button>
-    <button class="toggle-instructions" @click="toggleInstructions">
-      {{ showInstructions ? "Hide" : "" }} Instructions
-    </button>
+    <div class="flex gap-2 justify-center mt-4">
+      <button
+        :disabled="!gameOver"
+        class="bg-red-500 px-3 py-1 rounded-xl"
+        @click="handlePlay"
+      >
+        PLAY
+      </button>
+      <button class="toggle-instructions" @click="toggleInstructions">
+        {{ showInstructions ? "Hide" : "" }} Instructions
+      </button>
+    </div>
     <div v-if="showInstructions">
       <div class="instructions">
         Form as many 6-letter words as possible in 180 seconds
@@ -150,13 +158,3 @@ watch([gameOver, time], ([over, t], [prevOver, prevT]) => {
   return () => clearTimeout(timerId);
 });
 </script>
-
-<style scoped>
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
-}
-</style>

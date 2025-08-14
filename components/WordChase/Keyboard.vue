@@ -4,7 +4,7 @@
       <button
         v-for="key in keys"
         :key="key"
-        class="key"
+        class="key border-1 border-red-500"
         :value="key"
         :disabled="gameOver"
         @click="$emit('key-press', key.toLowerCase())"
@@ -60,8 +60,6 @@ const keys = [
 .key {
   width: 36px;
   height: 36px;
-  background: #e0e0e0;
-  border: none;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 500;
