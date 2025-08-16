@@ -1,4 +1,4 @@
-import tailwindcss from "@tailwindcss/vite";
+
 
 export default defineNuxtConfig({
   ssr: false,
@@ -15,6 +15,13 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/tailwindcss',
   ],
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config.ts',
+    exposeConfig: true,
+    injectPosition: 0,
+    viewer: true,
+  },
   googleFonts: {
     families: {
       Urbanist: true,

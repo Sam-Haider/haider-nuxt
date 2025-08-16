@@ -24,7 +24,7 @@
     <div class="flex gap-2 justify-center mt-4">
       <button
         :disabled="!gameOver"
-        class="bg-red-500 px-3 py-1 rounded-xl"
+        class="border-1 border-teal-400 px-3 py-1 rounded-xl"
         @click="handlePlay"
       >
         PLAY
