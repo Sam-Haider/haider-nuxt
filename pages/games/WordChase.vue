@@ -1,5 +1,5 @@
 <template>
-  <div class="game-container">
+  <div class="game-container max-w-4xl mx-auto mt-8">
     <div class="flex flex-col gap-2 items-center">
       <div class="text-4xl">WordChase</div>
       <div class="text-lg">
