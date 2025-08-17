@@ -7,59 +7,101 @@
 
 <template>
   <div class="game-container max-w-4xl mx-auto mt-8">
-    <div class="flex flex-col gap-2 items-center">
-      <div class="text-4xl">WordChase</div>
-      <div class="text-lg">
-        TIME REMAINING: <span class="time">{{ time }}</span>
+    <div class="flex flex-col gap-6 items-center">
+      <div class="flex justify-between w-full px-4">
+        <div></div>
+        <button
+          class="text-lg border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
+          @click="toggleInstructions"
+        >
+          Rules
+        </button>
       </div>
-      <div class="text-lg">
-        SCORE: <span class="score">{{ score }}</span>
+      <div class="text-6xl font-bold">WordChase</div>
+      <!-- Game Metadata -->
+      <div class="w-100 px-14">
+        <div class="text-2xl">
+          Game Clock: <span class="time text-teal-400">{{ time }} seconds</span>
+        </div>
+        <div class="text-2xl">
+          Words Captured: <span class="score text-teal-400">{{ score }}</span>
+        </div>
       </div>
     </div>
-    <div class="my-4 flex gap-2 justify-center p-3 text-4xl">
-      <div
-        v-for="(letter, idx) in letters"
-        :key="idx"
-        :class="{ correct: isCorrectWord }"
-        class="border border-2 border-teal-400 w-12 h-12 text-center transition-opacity duration-500 opacity-100"
-      >
-        {{ letter }}
-      </div>
+
+    <!-- Game board/Leters -->
+    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-80 items-center">
+      <template v-if="!gameOver">
+        <div
+          v-for="(letter, idx) in letters"
+          :key="idx"
+          :class="{ correct: isCorrectWord }"
+          class="border border-2 border-teal-400 w-12 h-12 text-center transition-opacity duration-500 opacity-100"
+        >
+          {{ letter }}
+        </div>
+      </template>
+      <template v-else>
+        <div v-if="gameOver" class="text-2xl font-bold text-gray-500">
+          <div class="flex gap-2 justify-center mt-4">
+            <button
+              class="text-4xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
+              @click="handlePlay"
+            >
+              PLAY {{ !firstLoad ? "AGAIN" : "" }}
+            </button>
+          </div>
+        </div>
+        <div
+          v-else
+          class="flex justify-center items-center text-4xl font-bold text-red-500"
+        >
+          Game Over
+        </div>
+      </template>
     </div>
-    <div class="message">{{ message }}</div>
-    <Keyboard :gameOver="gameOver" @key-press="handleClick" />
-    <div class="flex gap-2 justify-center mt-4">
-      <button
-        class="border-1 border-teal-400 px-3 py-1 rounded-xl"
-        @click="handlePlay"
-      >
-        PLAY
-      </button>
-      <button class="toggle-instructions" @click="toggleInstructions">
-        {{ showInstructions ? "Hide" : "" }} Instructions
-      </button>
-    </div>
+
+    <!-- Game Status MAIN -->
+
     <div
-      v-if="showTargetWord"
-      class="flex justify-center mt-4 items-center gap-3"
+      v-if="!showTargetWord"
+      class="flex justify-center mt-4 items-center gap-3 text-xl"
     >
       <span
         class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
         >X</span
       ><span>The word was {{ targetWord }}</span>
     </div>
-    <div v-if="showInstructions">
-      <div class="instructions">
-        Form as many 6-letter words as possible in 60 seconds
+
+    <Keyboard :gameOver="gameOver" @key-press="handleClick" />
+
+    <div
+      v-if="showInstructions"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+    >
+      <div class="rounded-lg shadow-lg p-6 w-3/4 w-full h-full relative">
+        <button
+          @click="showInstructions = false"
+          class="absolute top-1 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <span class="text-6xl">&times;</span>
+        </button>
+        <div class="text-xl px-10 mt-4">
+          <div class="instructions">
+            <div class="text-4xl text-bold">HOW TO PLAY</div>
+            <ul class="flex flex-col gap-2 list-disc mt-8">
+              <li>
+                Help the computer form as many 6-letter words as possible in 60
+                seconds.
+              </li>
+              <li>Take turns playing one letter at a time.</li>
+              <li>Gain a point for every valid word formed.</li>
+              <li>Lose a point for invalid letters that don't match a word.</li>
+              <li>Good luck!</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="instructions">
-        The computer plays the 1st, 3rd, and 5th letters. You play the rest.
-      </div>
-      <div class="instructions">Score 1 point for every completed word</div>
-      <div class="instructions">
-        Lose 1 point if you play a letter that doesn't match a word
-      </div>
-      <div class="instructions">Good luck!</div>
     </div>
   </div>
 </template>
@@ -72,16 +114,16 @@ import { useWordList } from "~/composables/WordChase/useWordList";
 const { words } = await useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
 
-const letters = ref([]);
+const letters = ref(["h", "e", "l", "l", "o"]);
 const gameOver = ref(true);
 const gameCount = ref(0);
 const score = ref(0);
-const message = ref("");
 const isCorrectWord = ref(false);
 const time = ref(60);
 const showInstructions = ref(false);
 const targetWord = ref("");
 const showTargetWord = ref(false);
+const firstLoad = ref(true);
 
 let timerId;
 
@@ -92,15 +134,14 @@ function startTimer() {
     } else {
       clearInterval(timerId);
       gameOver.value = true;
-      message.value = "GAME OVER!!!";
     }
   }, 1000);
 }
 
 function handlePlay() {
   gameOver.value = false;
-  message.value = "";
-  time.value = 60;
+  firstLoad.value = false;
+  time.value = 5;
   score.value = 0;
   if (timerId) {
     clearInterval(timerId);
