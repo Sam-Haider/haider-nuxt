@@ -64,10 +64,14 @@
       v-if="showTargetWord"
       class="flex justify-center mt-4 items-center gap-3 text-xl"
     >
+      <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold"
+        >✔</span
+      >
       <span
+        v-else
         class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
         >X</span
-      ><span>The word was {{ targetWord }}</span>
+      ><span class="text-3xl">{{ targetWord }}</span>
     </div>
 
     <Keyboard :gameOver="gameOver" @key-press="handleClick" />
@@ -111,7 +115,7 @@ import { useWordList } from "~/composables/WordChase/useWordList";
 const { words } = await useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
 
-const letters = ref(["h", "e", "l", "l", "o"]);
+const letters = ref([]);
 const gameOver = ref(true);
 const gameCount = ref(0);
 const score = ref(0);
@@ -180,7 +184,8 @@ function handleClick(ltr) {
     showTargetWord.value = true;
     setTimeout(() => {
       showTargetWord.value = false;
-      const { nextLetter } = getNext([]);
+      const { nextLetter, nextWord } = getNext([]);
+      targetWord.value = nextWord || "";
       letters.value = nextLetter ? [nextLetter] : [];
     }, 2000);
     return;
@@ -217,11 +222,15 @@ function getNext(lettersArr) {
 watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
     isCorrectWord.value = true;
+    showTargetWord.value = true;
+
     setTimeout(() => {
       score.value++;
-      const { nextLetter } = getNext([]);
+      const { nextLetter, nextWord } = getNext([]);
+      targetWord.value = nextWord || "";
       letters.value = nextLetter ? [nextLetter] : [];
       isCorrectWord.value = false;
+      showTargetWord.value = false;
     }, 2000);
   }
 });
