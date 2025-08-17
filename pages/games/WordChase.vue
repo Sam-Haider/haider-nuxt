@@ -1,3 +1,10 @@
+<!-- Todos: 
+
+- Show summary at the end with definitions
+- Use only common words from api
+- show empty playing board
+- animation when you get it right -->
+
 <template>
   <div class="game-container max-w-4xl mx-auto mt-8">
     <div class="flex flex-col gap-2 items-center">
@@ -14,7 +21,7 @@
         v-for="(letter, idx) in letters"
         :key="idx"
         :class="{ correct: isCorrectWord }"
-        class="border border-2 border-teal-400 w-12 h-12 text-center opacity-0 animate-fade-in"
+        class="border border-2 border-teal-400 w-12 h-12 text-center transition-opacity duration-500 opacity-100"
       >
         {{ letter }}
       </div>
