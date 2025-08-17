@@ -36,7 +36,12 @@
         <div
           v-for="idx in 6"
           :key="idx"
-          class="border border-2 border-teal-400 w-16 h-16 text-center transition-opacity duration-500 opacity-100 flex items-center justify-center"
+          class="border border-2 border-teal-400 w-12 h-12 text-center flex items-center justify-center transition-all duration-500"
+          :class="{
+            'opacity-100 scale-110': letters[idx - 1],
+            'opacity-50': !letters[idx - 1],
+          }"
+          :style="{ transitionDelay: `${idx * 100}ms` }"
         >
           {{ letters[idx - 1] || "" }}
         </div>
