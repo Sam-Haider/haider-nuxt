@@ -34,7 +34,7 @@
     </div>
     <div v-if="showInstructions">
       <div class="instructions">
-        Form as many 6-letter words as possible in 180 seconds
+        Form as many 6-letter words as possible in 60 seconds
       </div>
       <div class="instructions">
         The computer plays the 1st, 3rd, and 5th letters. You play the rest.
@@ -63,7 +63,7 @@ const gameCount = ref(0);
 const score = ref(0);
 const message = ref("");
 const isCorrectWord = ref(false);
-const time = ref(180);
+const time = ref(60);
 const showInstructions = ref(false);
 
 function updateWord(lettersArr) {
@@ -104,7 +104,7 @@ function handlePlay() {
   message.value = "";
   const { newLetter } = updateWord([]);
   letters.value = newLetter ? [newLetter] : [];
-  time.value = 180;
+  time.value = 60;
   score.value = 0;
 }
 
