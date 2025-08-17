@@ -66,8 +66,8 @@ const isCorrectWord = ref(false);
 const time = ref(180);
 const showInstructions = ref(false);
 
-function updateWord(lettersArr, gameWordsArr) {
-  const matches = gameWordsArr.filter((word) => {
+function updateWord(lettersArr) {
+  const matches = gameWords.value.filter((word) => {
     let isMatch = true;
     lettersArr?.forEach((letter, index) => {
       if (word[index]?.toLowerCase() !== letter) {
@@ -84,13 +84,10 @@ function updateWord(lettersArr, gameWordsArr) {
 function handleClick(ltr) {
   if (gameOver.value) return;
   gameCount.value++;
-  const { newWord, newLetter } = updateWord(
-    [...letters.value, ltr],
-    gameWords.value
-  );
+  const { newWord, newLetter } = updateWord([...letters.value, ltr]);
   if (!newWord) {
     score.value--;
-    const { newLetter } = updateWord([], gameWords.value);
+    const { newLetter } = updateWord([]);
     letters.value = newLetter ? [newLetter] : [];
     return;
   } else {
@@ -105,7 +102,7 @@ function handleClick(ltr) {
 function handlePlay() {
   gameOver.value = false;
   message.value = "";
-  const { newLetter } = updateWord([], gameWords.value);
+  const { newLetter } = updateWord([]);
   letters.value = newLetter ? [newLetter] : [];
   time.value = 180;
   score.value = 0;
@@ -128,7 +125,7 @@ watch(letters, (newVal) => {
     isCorrectWord.value = true;
     setTimeout(() => {
       score.value++;
-      const { newLetter } = updateWord([], gameWords.value);
+      const { newLetter } = updateWord([]);
       letters.value = newLetter ? [newLetter] : [];
       isCorrectWord.value = false;
     }, 2000);
@@ -137,7 +134,7 @@ watch(letters, (newVal) => {
 
 watch(gameOver, (val) => {
   if (!val) {
-    const { newLetter } = updateWord(letters.value, gameWords.value);
+    const { newLetter } = updateWord(letters.value);
     letters.value = newLetter ? [newLetter] : [];
   }
 });
