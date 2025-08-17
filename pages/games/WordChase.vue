@@ -42,7 +42,10 @@
         </div>
       </template>
       <template v-else>
-        <div v-if="gameOver" class="text-2xl font-bold text-gray-500">
+        <div class="text-2xl font-bold text-gray-200">
+          <div v-if="!firstLoad" class="text-center">
+            {{ selectedGameOverMessage }}!
+          </div>
           <div class="flex gap-2 justify-center mt-4">
             <button
               class="text-4xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
@@ -52,19 +55,13 @@
             </button>
           </div>
         </div>
-        <div
-          v-else
-          class="flex justify-center items-center text-4xl font-bold text-red-500"
-        >
-          Game Over
-        </div>
       </template>
     </div>
 
     <!-- Game Status MAIN -->
 
     <div
-      v-if="!showTargetWord"
+      v-if="showTargetWord"
       class="flex justify-center mt-4 items-center gap-3 text-xl"
     >
       <span
@@ -124,6 +121,27 @@ const showInstructions = ref(false);
 const targetWord = ref("");
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
+const messages = [
+  "Well done",
+  "Nice try",
+  "Good effort",
+  "Way to go",
+  "Great job",
+  "Keep it up",
+  "Awesome work",
+  "Impressive",
+  "You gave it your all",
+  "Fantastic attempt",
+  "Solid effort",
+  "Excellent try",
+  "Crushed it",
+  "Nailed it",
+];
+const selectedGameOverMessage = ref("");
+const setSelectedGameOverMessage = () => {
+  const randomIndex = Math.floor(Math.random() * messages.length);
+  selectedGameOverMessage.value = messages[randomIndex];
+};
 
 let timerId;
 
@@ -133,6 +151,7 @@ function startTimer() {
       time.value--;
     } else {
       clearInterval(timerId);
+      setSelectedGameOverMessage();
       gameOver.value = true;
     }
   }, 1000);
@@ -141,7 +160,7 @@ function startTimer() {
 function handlePlay() {
   gameOver.value = false;
   firstLoad.value = false;
-  time.value = 5;
+  time.value = 60;
   score.value = 0;
   if (timerId) {
     clearInterval(timerId);
