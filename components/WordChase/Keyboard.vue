@@ -1,5 +1,5 @@
 <template>
-  <div class="keyboard-container w-full p-2 bg-gray-900/95 backdrop-blur-md">
+  <div class="keyboard-container w-full p-2 backdrop-blur-md">
     <div
       class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative"
     >
