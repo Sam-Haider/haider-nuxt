@@ -34,12 +34,11 @@
     <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-80 items-center">
       <template v-if="!gameOver">
         <div
-          v-for="(letter, idx) in letters"
+          v-for="idx in 6"
           :key="idx"
-          :class="{ correct: isCorrectWord }"
-          class="border border-2 border-teal-400 w-12 h-12 text-center transition-opacity duration-500 opacity-100"
+          class="border border-2 border-teal-400 w-16 h-16 text-center transition-opacity duration-500 opacity-100 flex items-center justify-center"
         >
-          {{ letter }}
+          {{ letters[idx - 1] || "" }}
         </div>
       </template>
       <template v-else>
