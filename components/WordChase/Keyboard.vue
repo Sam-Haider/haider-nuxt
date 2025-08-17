@@ -1,11 +1,11 @@
 <template>
   <div
-    class="keyboard-container w-full fixed bottom-0 left-0 p-4 bg-gray-900/95 backdrop-blur-md"
+    class="keyboard-container w-full fixed bottom-0 left-0 p-2 bg-gray-900/95 backdrop-blur-md"
   >
     <div
-      class="keyboard flex flex-col items-center gap-2 max-w-lg mx-auto p-4 rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative"
+      class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative"
     >
-      <div class="flex gap-2 w-full justify-center">
+      <div class="flex w-full justify-center">
         <button
           v-for="key in row1"
           :key="key"
@@ -17,7 +17,7 @@
           {{ key }}
         </button>
       </div>
-      <div class="flex gap-2 w-full justify-center">
+      <div class="flex w-full justify-center">
         <button
           v-for="key in row2"
           :key="key"
@@ -29,7 +29,7 @@
           {{ key }}
         </button>
       </div>
-      <div class="flex gap-2 w-full justify-center">
+      <div class="flex w-full justify-center">
         <button
           v-for="key in row3"
           :key="key"
@@ -54,7 +54,7 @@ const row2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const row3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
 const keyClasses =
-  "w-[9%] aspect-square rounded-md bg-gray-900 text-lg font-bold text-teal-400 shadow-lg border-2 border-t-gray-600 border-l-gray-600 border-r-gray-800 border-b-gray-800 active:translate-y-[2px] active:border-t-gray-700 active:border-l-gray-700 active:shadow-inner active:bg-gray-800 transition-all duration-75 ease hover:bg-gray-600/50 hover:text-cyan-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/10 after:to-transparent";
+  "w-[10%] aspect-square rounded-md bg-gray-900 text-lg font-bold text-teal-400 shadow-lg border-2 border-t-gray-600 border-l-gray-600 border-r-gray-800 border-b-gray-800 active:translate-y-[2px] active:border-t-gray-700 active:border-l-gray-700 active:shadow-inner active:bg-gray-800 transition-all duration-75 ease hover:bg-gray-600/50 hover:text-cyan-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/10 after:to-transparent";
 </script>
 
 <style scoped>

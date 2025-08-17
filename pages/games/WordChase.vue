@@ -9,11 +9,10 @@
         SCORE: <span class="score">{{ score }}</span>
       </div>
     </div>
-    <div class="my-4 flex gap-2 justify-center p-3">
+    <div class="my-4 flex gap-2 justify-center p-3 text-4xl">
       <div
         v-for="(letter, idx) in letters"
         :key="idx"
-        class="border-b border-white"
         :class="{ correct: isCorrectWord }"
       >
         {{ letter }}
@@ -55,7 +54,7 @@ import Keyboard from "~/components/WordChase/Keyboard.vue";
 import { useWordList } from "~/composables/WordChase/useWordList";
 import { useOpenAI } from "~/composables/WordChase/useOpenAI";
 
-const { words } = useWordList();
+const { words } = await useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
 
 const letters = ref([]);
