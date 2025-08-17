@@ -14,6 +14,7 @@
         v-for="(letter, idx) in letters"
         :key="idx"
         :class="{ correct: isCorrectWord }"
+        class="border border-2 border-teal-400 w-12 h-12 text-center opacity-0 animate-fade-in"
       >
         {{ letter }}
       </div>
@@ -31,6 +32,15 @@
       <button class="toggle-instructions" @click="toggleInstructions">
         {{ showInstructions ? "Hide" : "" }} Instructions
       </button>
+    </div>
+    <div
+      v-if="showTargetWord"
+      class="flex justify-center mt-4 items-center gap-3"
+    >
+      <span
+        class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
+        >X</span
+      ><span>The word was {{ targetWord }}</span>
     </div>
     <div v-if="showInstructions">
       <div class="instructions">
@@ -52,7 +62,6 @@
 import { ref, computed, watch, onMounted } from "vue";
 import Keyboard from "~/components/WordChase/Keyboard.vue";
 import { useWordList } from "~/composables/WordChase/useWordList";
-import { useOpenAI } from "~/composables/WordChase/useOpenAI";
 
 const { words } = await useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
@@ -65,8 +74,44 @@ const message = ref("");
 const isCorrectWord = ref(false);
 const time = ref(60);
 const showInstructions = ref(false);
+const targetWord = ref("");
+const showTargetWord = ref(false);
 
-function updateWord(lettersArr) {
+function handlePlay() {
+  gameOver.value = false;
+  message.value = "";
+  time.value = 60;
+  score.value = 0;
+  const { nextWord, nextLetter } = getNext([]);
+  targetWord.value = nextWord || "";
+  letters.value = nextLetter ? [nextLetter] : [];
+}
+
+function handleClick(ltr) {
+  if (gameOver.value) return;
+  gameCount.value++;
+  const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
+  if (!nextWord) {
+    score.value--;
+    showTargetWord.value = true;
+    setTimeout(() => {
+      showTargetWord.value = false;
+      const { nextLetter } = getNext([]);
+      letters.value = nextLetter ? [nextLetter] : [];
+    }, 2000);
+    return;
+  } else {
+    targetWord.value = nextWord;
+    if (letters.value.length === 5) {
+      letters.value = [...letters.value, ltr];
+    } else {
+      letters.value = [...letters.value, ltr, nextLetter];
+    }
+  }
+}
+
+function getNext(lettersArr) {
+  // Takes the array of letters played so far and finds all possible matching words
   const matches = gameWords.value.filter((word) => {
     let isMatch = true;
     lettersArr?.forEach((letter, index) => {
@@ -76,48 +121,13 @@ function updateWord(lettersArr) {
     });
     return isMatch;
   });
-  const newWord = matches[Math.floor(Math.random() * matches.length)];
-  const newLetter = newWord && newWord[lettersArr.length]?.toLowerCase();
-  return { newWord, newLetter };
-}
 
-function handleClick(ltr) {
-  if (gameOver.value) return;
-  gameCount.value++;
-  const { newWord, newLetter } = updateWord([...letters.value, ltr]);
-  if (!newWord) {
-    score.value--;
-    const { newLetter } = updateWord([]);
-    letters.value = newLetter ? [newLetter] : [];
-    return;
-  } else {
-    if (letters.value.length === 5) {
-      letters.value = [...letters.value, ltr];
-    } else {
-      letters.value = [...letters.value, ltr, newLetter];
-    }
-  }
-}
+  // Finds a random word from the matches and sets it as the current target word
+  const nextWord = matches[Math.floor(Math.random() * matches.length)];
 
-function handlePlay() {
-  gameOver.value = false;
-  message.value = "";
-  const { newLetter } = updateWord([]);
-  letters.value = newLetter ? [newLetter] : [];
-  time.value = 60;
-  score.value = 0;
-}
-
-function toggleInstructions() {
-  showInstructions.value = !showInstructions.value;
-  if (showInstructions.value) {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  // The next letter to be played is the letter in the new word at the position equal to the length of lettersArr (i.e., the next letter to be played to continue the word)
+  const nextLetter = nextWord && nextWord[lettersArr.length]?.toLowerCase();
+  return { nextWord, nextLetter };
 }
 
 watch(letters, (newVal) => {
@@ -125,17 +135,10 @@ watch(letters, (newVal) => {
     isCorrectWord.value = true;
     setTimeout(() => {
       score.value++;
-      const { newLetter } = updateWord([]);
-      letters.value = newLetter ? [newLetter] : [];
+      const { nextLetter } = getNext([]);
+      letters.value = nextLetter ? [nextLetter] : [];
       isCorrectWord.value = false;
     }, 2000);
-  }
-});
-
-watch(gameOver, (val) => {
-  if (!val) {
-    const { newLetter } = updateWord(letters.value);
-    letters.value = newLetter ? [newLetter] : [];
   }
 });
 
@@ -154,6 +157,18 @@ watch([gameOver, time], ([over, t], [prevOver, prevT]) => {
   }
   return () => clearTimeout(timerId);
 });
+
+function toggleInstructions() {
+  showInstructions.value = !showInstructions.value;
+  if (showInstructions.value) {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
 
 onMounted(() => {
   // useOpenAI();
