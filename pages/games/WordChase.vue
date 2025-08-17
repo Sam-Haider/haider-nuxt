@@ -4,6 +4,7 @@
 - Use only common words from api
 - show empty playing board
 - animation when you get it right -->
+<!-- show words you captured -->
 
 <template>
   <div class="game-container max-w-4xl mx-auto mt-8">
