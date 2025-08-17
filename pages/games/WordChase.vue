@@ -30,7 +30,6 @@
     <Keyboard :gameOver="gameOver" @key-press="handleClick" />
     <div class="flex gap-2 justify-center mt-4">
       <button
-        :disabled="!gameOver"
         class="border-1 border-teal-400 px-3 py-1 rounded-xl"
         @click="handlePlay"
       >
@@ -84,11 +83,29 @@ const showInstructions = ref(false);
 const targetWord = ref("");
 const showTargetWord = ref(false);
 
+let timerId;
+
+function startTimer() {
+  timerId = setInterval(() => {
+    if (time.value > 0) {
+      time.value--;
+    } else {
+      clearInterval(timerId);
+      gameOver.value = true;
+      message.value = "GAME OVER!!!";
+    }
+  }, 1000);
+}
+
 function handlePlay() {
   gameOver.value = false;
   message.value = "";
   time.value = 60;
   score.value = 0;
+  if (timerId) {
+    clearInterval(timerId);
+  }
+  startTimer();
   const { nextWord, nextLetter } = getNext([]);
   targetWord.value = nextWord || "";
   letters.value = nextLetter ? [nextLetter] : [];
@@ -147,22 +164,6 @@ watch(letters, (newVal) => {
       isCorrectWord.value = false;
     }, 2000);
   }
-});
-
-watch([gameOver, time], ([over, t], [prevOver, prevT]) => {
-  let timerId;
-  if (!over) {
-    if (t > 0) {
-      timerId = setTimeout(() => {
-        time.value--;
-      }, 1000);
-    }
-    if (t === 0) {
-      gameOver.value = true;
-      message.value = "GAME OVER!!!";
-    }
-  }
-  return () => clearTimeout(timerId);
 });
 
 function toggleInstructions() {
