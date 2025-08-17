@@ -1,8 +1,6 @@
 // Example word list composable for Nuxt 3
 import { ref } from "vue";
 
-const { data: sixLetterWords } = await useFetch<string[]>("/api/words");
-
 // const words = ref([
 //   "abacus",
 //   "abated",
@@ -2501,7 +2499,8 @@ const { data: sixLetterWords } = await useFetch<string[]>("/api/words");
 //   "zoning",
 // ]);
 
-export function useWordList() {
+export async function useWordList() {
+  const { data: sixLetterWords } = await useFetch<string[]>("/api/words");
   // You can add more logic here as needed
   return { words: sixLetterWords };
 }
