@@ -1,6 +1,7 @@
 <!-- Todos: 
 
 - Show summary at the end with definitions
+- Disable keyboard
 - Use only common words from api
 - show empty playing board
 - animation when you get it right -->
