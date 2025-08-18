@@ -3,23 +3,21 @@
 - Show summary at the end with definitions
 - Disable keyboard
 - Use only common words from api
-- show empty playing board
-- animation when you get it right -->
 <!-- show words you captured -->
 
 <template>
   <div class="game-container max-w-4xl mx-auto mt-8 px-3">
     <div class="flex flex-col gap-6 items-center">
       <div class="flex justify-between w-full px-4">
-        <div></div>
+        <div class="w-16"></div>
+        <div class="text-2xl font-bold">WordChase</div>
         <button
-          class="text-lg border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
+          class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
           @click="toggleInstructions"
         >
           Rules
         </button>
       </div>
-      <div class="text-6xl font-bold">WordChase</div>
       <!-- Game Metadata -->
       <div v-if="!gameOver" class="w-100 px-14">
         <div class="text-2xl flex mb-4">
@@ -71,7 +69,7 @@
           </div>
           <div class="flex gap-2 justify-center mt-4">
             <button
-              class="text-4xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
+              class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
               @click="handlePlay"
             >
               PLAY {{ !firstLoad ? "AGAIN" : "" }}
