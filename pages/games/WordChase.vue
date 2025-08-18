@@ -67,12 +67,21 @@
           <div v-if="!firstLoad" class="text-center">
             {{ selectedGameOverMessage }}
           </div>
-          <div v-if="!firstLoad" class="text-sm flex gap-2 flex-wrap">
+          <div v-if="!firstLoad" class="text-sm flex flex-col gap-2 flex-wrap">
             Completed Words:
             <div class="flex gap-2 flex-wrap">
               <div
-                v-for="word in playedWords"
-                class="text-teal-400 border border1 border-teal-400 rounded-4xl px-2"
+                v-for="word in capturedWords"
+                class="border border1 border-teal-400 rounded-4xl px-2"
+              >
+                {{ word }}
+              </div>
+            </div>
+            Missed Words:
+            <div class="flex gap-2 flex-wrap">
+              <div
+                v-for="word in missedWords"
+                class="border border1 border-red-500 rounded-4xl px-2"
               >
                 {{ word }}
               </div>
@@ -141,12 +150,13 @@ const isCorrectWord = ref(false);
 const time = ref(60);
 const showInstructions = ref(false);
 const targetWord = ref("");
-const playedWords = ref([]);
+const capturedWords = ref([]);
+const missedWords = ref([]);
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
 const livesRemaining = ref(3);
 const messages = [
-  "Well done",
+  "Good try",
   "Nice try",
   "Good effort",
   "Way to go",
@@ -198,6 +208,7 @@ function handleClick(ltr) {
   gameCount.value++;
   const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
   if (!nextWord) {
+    missedWords.value.push(targetWord.value);
     showTargetWord.value = true;
     setTimeout(() => {
       livesRemaining.value--;
@@ -241,7 +252,7 @@ watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
     isCorrectWord.value = true;
     showTargetWord.value = true;
-    playedWords.value.push(targetWord.value);
+    capturedWords.value.push(targetWord.value);
 
     setTimeout(() => {
       score.value++;
