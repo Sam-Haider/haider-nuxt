@@ -63,10 +63,7 @@
         </div>
       </template>
       <template v-else>
-        <div class="text-2xl font-bold text-gray-200">
-          <div v-if="!firstLoad" class="text-center">
-            {{ selectedGameOverMessage }}
-          </div>
+        <div class="w-full px-3">
           <div v-if="!firstLoad" class="text-sm flex flex-col gap-2 flex-wrap">
             Completed Words:
             <div class="flex gap-2 flex-wrap">
@@ -87,7 +84,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2 justify-center mt-4">
+          <div class="flex gap-2 justify-center mt-8">
             <button
               class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
               @click="handlePlay"
@@ -119,13 +116,13 @@
             <div class="text-4xl text-bold">HOW TO PLAY</div>
             <ul class="flex flex-col gap-2 list-disc mt-8">
               <li>
-                Help the computer form as many 6-letter words as possible in 60
-                seconds.
+                Work with the computer to make as many 6-letter words as
+                possible
               </li>
-              <li>Take turns playing one letter at a time.</li>
-              <li>Gain a point for every valid word formed.</li>
-              <li>Lose a point for invalid letters that don't match a word.</li>
-              <li>Good luck!</li>
+              <li>
+                If you miss a word by playing the wrong letter, you lose a life
+              </li>
+              <li>Lose 3 lives and its game over</li>
             </ul>
           </div>
         </div>
@@ -155,39 +152,9 @@ const missedWords = ref([]);
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
 const livesRemaining = ref(3);
-const messages = [
-  "Good try",
-  "Nice try",
-  "Good effort",
-  "Way to go",
-  "Great job",
-  "Keep it up",
-  "Awesome work",
-  "Impressive",
-  "You gave it your all",
-  "Fantastic attempt",
-  "Solid effort",
-  "Excellent try",
-  "Crushed it",
-  "Nailed it",
-  "Meh",
-  "Is that the best you've got?",
-  "Better luck next time!",
-  "You can do better than that!",
-  "Not bad, but I think you can do better...",
-  "Keep trying, you'll get there...",
-  "Pretty pretty good",
-  "Well done!",
-];
-const selectedGameOverMessage = ref("");
-const setSelectedGameOverMessage = () => {
-  const randomIndex = Math.floor(Math.random() * messages.length);
-  selectedGameOverMessage.value = messages[randomIndex];
-};
 
 watch(livesRemaining, (newVal) => {
   if (newVal <= 0) {
-    setSelectedGameOverMessage();
     gameOver.value = true;
   }
 });
