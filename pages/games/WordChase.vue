@@ -28,11 +28,25 @@
         <div class="text-2xl">
           Words Captured: <span class="score text-teal-400">{{ score }}</span>
         </div>
+        <div
+          v-if="showTargetWord"
+          class="flex justify-center mt-12 items-center gap-3 text-xl"
+        >
+          <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold"
+            >✔</span
+          >
+          <span
+            v-else
+            class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
+            >X</span
+          ><span class="text-3xl">{{ targetWord }}</span>
+        </div>
+        <div v-else class="h-21"></div>
       </div>
     </div>
 
     <!-- Game board/Leters -->
-    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-80 items-center">
+    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-40 items-center">
       <template v-if="!gameOver">
         <div
           v-for="idx in 6"
@@ -60,20 +74,6 @@
     </div>
 
     <!-- Game Status MAIN -->
-
-    <div
-      v-if="showTargetWord"
-      class="flex justify-center mt-4 items-center gap-3 text-xl"
-    >
-      <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold"
-        >✔</span
-      >
-      <span
-        v-else
-        class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
-        >X</span
-      ><span class="text-3xl">{{ targetWord }}</span>
-    </div>
 
     <Keyboard :gameOver="gameOver" @key-press="handleClick" />
 
