@@ -22,18 +22,19 @@
       <!-- Game Metadata -->
       <div class="w-100 px-14">
         <div class="text-2xl">
-          Game Clock: <span class="time text-teal-400">{{ time }} seconds</span>
+          Lives Remaining:
+          <span class="time text-teal-400">{{ time }} seconds</span>
         </div>
         <div class="text-2xl">
           Words Captured: <span class="score text-teal-400">{{ score }}</span>
         </div>
         <div
           v-if="showTargetWord"
-          class="flex justify-center mt-12 items-center gap-3 text-xl"
+          class="flex justify-center items-center mt-12 items-center gap-3 text-xl"
         >
-          <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold"
-            >✔</span
-          >
+          <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
+            <Icon name="material-symbols:check-circle" class="text-green-500" />
+          </span>
           <span
             v-else
             class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
@@ -125,6 +126,7 @@ const showInstructions = ref(false);
 const targetWord = ref("");
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
+const livesRemaining = ref(3);
 const messages = [
   "Well done",
   "Nice try",
