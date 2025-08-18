@@ -20,10 +20,16 @@
       </div>
       <div class="text-6xl font-bold">WordChase</div>
       <!-- Game Metadata -->
-      <div class="w-100 px-14">
-        <div class="text-2xl">
-          Lives Remaining:
-          <span class="time text-teal-400">{{ time }} seconds</span>
+      <div v-if="!gameOver" class="w-100 px-14">
+        <div class="text-2xl flex mb-4">
+          Lives:
+          <span class="time text-teal-400 inline-flex gap-4 px-3">
+            <Icon
+              v-for="life in livesRemaining"
+              name="hugeicons:brain-02"
+              class="text-teal-400 text-3xl"
+            />
+          </span>
         </div>
         <div class="text-2xl">
           Words Captured: <span class="score text-teal-400">{{ score }}</span>
@@ -43,6 +49,7 @@
         </div>
         <div v-else class="h-21"></div>
       </div>
+      <div v-else class="h-41"></div>
     </div>
 
     <!-- Game board/Leters -->
@@ -59,7 +66,7 @@
       <template v-else>
         <div class="text-2xl font-bold text-gray-200">
           <div v-if="!firstLoad" class="text-center">
-            {{ selectedGameOverMessage }}!
+            {{ selectedGameOverMessage }}
           </div>
           <div class="flex gap-2 justify-center mt-4">
             <button
@@ -142,6 +149,14 @@ const messages = [
   "Excellent try",
   "Crushed it",
   "Nailed it",
+  "Meh",
+  "Is that the best you've got?",
+  "Better luck next time!",
+  "You can do better than that!",
+  "Not bad, but I think you can do better...",
+  "Keep trying, you'll get there...",
+  "Pretty pretty good",
+  "Well done!",
 ];
 const selectedGameOverMessage = ref("");
 const setSelectedGameOverMessage = () => {
@@ -149,29 +164,19 @@ const setSelectedGameOverMessage = () => {
   selectedGameOverMessage.value = messages[randomIndex];
 };
 
-let timerId;
-
-function startTimer() {
-  timerId = setInterval(() => {
-    if (time.value > 0) {
-      time.value--;
-    } else {
-      clearInterval(timerId);
-      setSelectedGameOverMessage();
-      gameOver.value = true;
-    }
-  }, 1000);
-}
+watch(livesRemaining, (newVal) => {
+  if (newVal <= 0) {
+    setSelectedGameOverMessage();
+    gameOver.value = true;
+  }
+});
 
 function handlePlay() {
+  livesRemaining.value = 3;
   gameOver.value = false;
   firstLoad.value = false;
   time.value = 60;
   score.value = 0;
-  if (timerId) {
-    clearInterval(timerId);
-  }
-  startTimer();
   const { nextWord, nextLetter } = getNext([]);
   targetWord.value = nextWord || "";
   letters.value = nextLetter ? [nextLetter] : [];
@@ -182,9 +187,9 @@ function handleClick(ltr) {
   gameCount.value++;
   const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
   if (!nextWord) {
-    score.value--;
     showTargetWord.value = true;
     setTimeout(() => {
+      livesRemaining.value--;
       showTargetWord.value = false;
       const { nextLetter, nextWord } = getNext([]);
       targetWord.value = nextWord || "";
