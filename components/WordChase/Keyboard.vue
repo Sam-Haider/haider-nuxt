@@ -1,44 +1,42 @@
 <template>
-  <div class="keyboard-container w-full p-2 backdrop-blur-md">
-    <div
-      class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative"
-    >
-      <div class="flex w-full justify-center">
-        <button
-          v-for="key in row1"
-          :key="key"
-          :class="keyClasses"
-          :value="key"
-          :disabled="gameOver"
-          @click="$emit('key-press', key.toLowerCase())"
-        >
-          {{ key }}
-        </button>
-      </div>
-      <div class="flex w-full justify-center">
-        <button
-          v-for="key in row2"
-          :key="key"
-          :class="keyClasses"
-          :value="key"
-          :disabled="gameOver"
-          @click="$emit('key-press', key.toLowerCase())"
-        >
-          {{ key }}
-        </button>
-      </div>
-      <div class="flex w-full justify-center">
-        <button
-          v-for="key in row3"
-          :key="key"
-          :class="keyClasses"
-          :value="key"
-          :disabled="gameOver"
-          @click="$emit('key-press', key.toLowerCase())"
-        >
-          {{ key }}
-        </button>
-      </div>
+  <div
+    class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative"
+  >
+    <div class="flex w-full justify-center">
+      <button
+        v-for="key in row1"
+        :key="key"
+        :class="keyClasses"
+        :value="key"
+        :disabled="gameOver"
+        @click="$emit('key-press', key.toLowerCase())"
+      >
+        {{ key }}
+      </button>
+    </div>
+    <div class="flex w-full justify-center">
+      <button
+        v-for="key in row2"
+        :key="key"
+        :class="keyClasses"
+        :value="key"
+        :disabled="gameOver"
+        @click="$emit('key-press', key.toLowerCase())"
+      >
+        {{ key }}
+      </button>
+    </div>
+    <div class="flex w-full justify-center">
+      <button
+        v-for="key in row3"
+        :key="key"
+        :class="keyClasses"
+        :value="key"
+        :disabled="gameOver"
+        @click="$emit('key-press', key.toLowerCase())"
+      >
+        {{ key }}
+      </button>
     </div>
   </div>
 </template>

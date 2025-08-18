@@ -8,6 +8,7 @@
 
 <template>
   <div class="game-container max-w-4xl mx-auto mt-8">
+    <div>Build - 8/17 8:08</div>
     <div class="flex flex-col gap-6 items-center">
       <div class="flex justify-between w-full px-4">
         <div></div>
