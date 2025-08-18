@@ -67,6 +67,17 @@
           <div v-if="!firstLoad" class="text-center">
             {{ selectedGameOverMessage }}
           </div>
+          <div v-if="!firstLoad" class="text-sm flex gap-2 flex-wrap">
+            Completed Words:
+            <div class="flex gap-2 flex-wrap">
+              <div
+                v-for="word in playedWords"
+                class="text-teal-400 border border1 border-teal-400 rounded-4xl px-2"
+              >
+                {{ word }}
+              </div>
+            </div>
+          </div>
           <div class="flex gap-2 justify-center mt-4">
             <button
               class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
@@ -130,6 +141,7 @@ const isCorrectWord = ref(false);
 const time = ref(60);
 const showInstructions = ref(false);
 const targetWord = ref("");
+const playedWords = ref([]);
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
 const livesRemaining = ref(3);
@@ -229,6 +241,7 @@ watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
     isCorrectWord.value = true;
     showTargetWord.value = true;
+    playedWords.value.push(targetWord.value);
 
     setTimeout(() => {
       score.value++;
