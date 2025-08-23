@@ -6,11 +6,11 @@
 <!-- show words you captured -->
 
 <template>
-  <div class="max-w-4xl mx-auto mt-8 px-3 h-100">
+  <div class="max-w-4xl mx-auto mt-8 px-3 h-[100vh] flex flex-col">
     <!-- Header -->
     <div class="flex justify-between w-full px-4">
       <div class="w-16"></div>
-      <div class="text-2xl font-bold">WordChase</div>
+      <div class="text-2xl font-bold mb-4">WordChase</div>
       <button
         class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
         @click="toggleInstructions"
@@ -101,7 +101,7 @@
 
     <!-- Game Status MAIN -->
 
-    <Keyboard :gameOver="gameOver" @key-press="handleClick" />
+    <Keyboard :gameOver="gameOver" @key-press="clickHandler" class="w-full" />
 
     <div
       v-if="showInstructions"
@@ -155,6 +155,7 @@ const missedWords = ref([]);
 const showTargetWord = ref(false);
 const firstLoad = ref(true);
 const livesRemaining = ref(3);
+const isKeyboardDisabled = ref(true);
 
 watch(livesRemaining, (newVal) => {
   if (newVal <= 0) {
@@ -176,10 +177,16 @@ function handlePlay() {
     const { nextWord, nextLetter } = getNext([]);
     targetWord.value = nextWord || "";
     letters.value = nextLetter ? [nextLetter] : [];
+    isKeyboardDisabled.value = false;
   }, 700);
 }
 
+const clickHandler = computed(() => {
+  return isKeyboardDisabled.value ? () => {} : handleClick;
+});
+
 function handleClick(ltr) {
+  isKeyboardDisabled.value = true;
   if (gameOver.value) return;
   gameCount.value++;
   const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
@@ -194,6 +201,7 @@ function handleClick(ltr) {
         const { nextLetter, nextWord } = getNext([]);
         targetWord.value = nextWord || "";
         letters.value = nextLetter ? [nextLetter] : [];
+        isKeyboardDisabled.value = false;
       }, 500);
     }, 2000);
     return;
@@ -208,6 +216,7 @@ function handleClick(ltr) {
     if (letters.value.length < 6 && nextLetter) {
       setTimeout(() => {
         letters.value = [...letters.value, nextLetter];
+        isKeyboardDisabled.value = false;
       }, 1500);
     }
   }
@@ -250,6 +259,7 @@ watch(letters, (newVal) => {
         const { nextLetter, nextWord } = getNext([]);
         targetWord.value = nextWord || "";
         letters.value = nextLetter ? [nextLetter] : [];
+        isKeyboardDisabled.value = false;
       }, 500);
     }, 2000);
   }

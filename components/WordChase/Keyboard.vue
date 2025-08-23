@@ -1,6 +1,6 @@
 <template>
   <div
-    class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative top-20"
+    class="keyboard flex flex-col items-center max-w-lg mx-auto rounded-xl bg-gray-900/95 shadow-2xl border-transparent relative top-35"
   >
     <div class="flex w-full justify-center">
       <button
