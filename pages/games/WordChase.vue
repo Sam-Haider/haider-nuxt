@@ -6,50 +6,49 @@
 <!-- show words you captured -->
 
 <template>
-  <div class="game-container max-w-4xl mx-auto mt-8 px-3">
-    <div class="flex flex-col gap-6 items-center">
-      <div class="flex justify-between w-full px-4">
-        <div class="w-16"></div>
-        <div class="text-2xl font-bold">WordChase</div>
-        <button
-          class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
-          @click="toggleInstructions"
-        >
-          Rules
-        </button>
-      </div>
-      <!-- Game Metadata -->
-      <div v-if="!gameOver" class="w-100 px-14">
-        <div class="text-2xl flex mb-4">
-          Lives:
-          <span class="time text-teal-400 inline-flex gap-4 px-3">
-            <Icon
-              v-for="life in livesRemaining"
-              name="hugeicons:brain-02"
-              class="text-teal-400 text-3xl"
-            />
-          </span>
-        </div>
-        <div class="text-2xl">
-          Words Captured: <span class="score text-teal-400">{{ score }}</span>
-        </div>
-        <div
-          v-if="showTargetWord"
-          class="flex justify-center items-center mt-12 items-center gap-3 text-xl"
-        >
-          <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
-            <Icon name="material-symbols:check-circle" class="text-green-500" />
-          </span>
-          <span
-            v-else
-            class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
-            >X</span
-          ><span class="text-3xl">{{ targetWord }}</span>
-        </div>
-        <div v-else class="h-21"></div>
-      </div>
-      <div v-else class="h-41"></div>
+  <div class="max-w-4xl mx-auto mt-8 px-3 h-100">
+    <!-- Header -->
+    <div class="flex justify-between w-full px-4">
+      <div class="w-16"></div>
+      <div class="text-2xl font-bold">WordChase</div>
+      <button
+        class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
+        @click="toggleInstructions"
+      >
+        Rules
+      </button>
     </div>
+    <!-- Game Metadata -->
+    <div v-if="!gameOver" class="w-100 px-14">
+      <div class="text-2xl flex mb-4">
+        Lives:
+        <span class="time text-teal-400 inline-flex gap-4 px-3">
+          <Icon
+            v-for="life in livesRemaining"
+            name="hugeicons:brain-02"
+            class="text-teal-400 text-3xl"
+          />
+        </span>
+      </div>
+      <div class="text-2xl">
+        Words Captured: <span class="score text-teal-400">{{ score }}</span>
+      </div>
+      <div
+        v-if="showTargetWord"
+        class="flex justify-center items-center mt-12 items-center gap-3 text-xl"
+      >
+        <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
+          <Icon name="material-symbols:check-circle" class="text-green-500" />
+        </span>
+        <span
+          v-else
+          class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
+          >X</span
+        ><span class="text-3xl">{{ targetWord }}</span>
+      </div>
+      <div v-else class="h-21"></div>
+    </div>
+    <div v-else class="h-41"></div>
 
     <!-- Game board/Leters -->
     <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-40 items-center">
@@ -57,7 +56,11 @@
         <div
           v-for="idx in 6"
           :key="idx"
-          class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center"
+          class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center transition-all duration-500"
+          :class="{
+            'opacity-0 scale-95': !letters[idx - 1],
+            'opacity-100 scale-100': letters[idx - 1],
+          }"
         >
           {{ letters[idx - 1] || "" }}
         </div>
@@ -165,9 +168,15 @@ function handlePlay() {
   firstLoad.value = false;
   time.value = 60;
   score.value = 0;
-  const { nextWord, nextLetter } = getNext([]);
-  targetWord.value = nextWord || "";
-  letters.value = nextLetter ? [nextLetter] : [];
+  letters.value = [];
+  capturedWords.value = [];
+  missedWords.value = [];
+  // Delay the first letter to allow for fade-in
+  setTimeout(() => {
+    const { nextWord, nextLetter } = getNext([]);
+    targetWord.value = nextWord || "";
+    letters.value = nextLetter ? [nextLetter] : [];
+  }, 700);
 }
 
 function handleClick(ltr) {
@@ -180,17 +189,26 @@ function handleClick(ltr) {
     setTimeout(() => {
       livesRemaining.value--;
       showTargetWord.value = false;
-      const { nextLetter, nextWord } = getNext([]);
-      targetWord.value = nextWord || "";
-      letters.value = nextLetter ? [nextLetter] : [];
+      letters.value = [];
+      setTimeout(() => {
+        const { nextLetter, nextWord } = getNext([]);
+        targetWord.value = nextWord || "";
+        letters.value = nextLetter ? [nextLetter] : [];
+      }, 500);
     }, 2000);
     return;
   } else {
     targetWord.value = nextWord;
-    if (letters.value.length === 5) {
+    // Add the user's letter
+    setTimeout(() => {
       letters.value = [...letters.value, ltr];
-    } else {
-      letters.value = [...letters.value, ltr, nextLetter];
+    }, 50);
+
+    // If the word is not complete, add the computer's letter after a delay
+    if (letters.value.length < 6 && nextLetter) {
+      setTimeout(() => {
+        letters.value = [...letters.value, nextLetter];
+      }, 1500);
     }
   }
 }
@@ -223,11 +241,16 @@ watch(letters, (newVal) => {
 
     setTimeout(() => {
       score.value++;
-      const { nextLetter, nextWord } = getNext([]);
-      targetWord.value = nextWord || "";
-      letters.value = nextLetter ? [nextLetter] : [];
+      letters.value = [];
       isCorrectWord.value = false;
       showTargetWord.value = false;
+
+      // Delay the next word's first letter
+      setTimeout(() => {
+        const { nextLetter, nextWord } = getNext([]);
+        targetWord.value = nextWord || "";
+        letters.value = nextLetter ? [nextLetter] : [];
+      }, 500);
     }, 2000);
   }
 });
