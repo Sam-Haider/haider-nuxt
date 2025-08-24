@@ -65,13 +65,17 @@
         <div
           v-for="idx in 6"
           :key="idx"
-          class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center transition-all duration-500"
-          :class="{
-            'opacity-0 scale-95': !letters[idx - 1],
-            'opacity-100 scale-100': letters[idx - 1],
-          }"
+          class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center"
         >
-          {{ letters[idx - 1] || "" }}
+          <span
+            class="transition-all duration-500"
+            :class="{
+              'opacity-0 scale-95': !letters[idx - 1],
+              'opacity-100 scale-100': letters[idx - 1],
+            }"
+          >
+            {{ letters[idx - 1] || "" }}
+          </span>
         </div>
       </template>
       <template v-else>
