@@ -58,7 +58,9 @@
     <div v-else class="h-48"></div>
 
     <!-- Game Board/Letters -->
-    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-30 items-center">
+    <div
+      class="my-4 flex gap-2 justify-center p-3 text-4xl h-30 items-center mt-10"
+    >
       <template v-if="!gameOver">
         <div
           v-for="idx in 6"
