@@ -25,12 +25,14 @@
       class="border-b-1 border-white-400 p-3 flex flex-col gap-3"
     >
       <div class="text-2xl flex h-12">
-        Lives:
-        <span class="time text-teal-400 inline-flex gap-4 px-3">
+        Lives: &nbsp;
+        <span class="inline-flex gap-4">
           <Icon
-            v-for="life in livesRemaining"
+            v-for="i in 3"
+            :key="i"
             name="hugeicons:brain-02"
-            class="text-teal-400 text-3xl"
+            class="w-8 h-8 text-teal-400 transition-opacity duration-300"
+            :class="i <= livesRemaining ? 'opacity-100' : 'opacity-0'"
           />
         </span>
       </div>
@@ -87,7 +89,7 @@
       <template v-else>
         <div class="h-45">
           <div v-if="!firstLoad" class="text-sm flex flex-col gap-2">
-            Completed Words:
+            You Captured:
             <div class="flex gap-2 overflow-x-auto whitespace-nowrap pb-3">
               <div
                 v-for="word in capturedWords"
@@ -96,7 +98,7 @@
                 {{ word }}
               </div>
             </div>
-            Missed Words:
+            You Missed:
             <div class="flex gap-2 overflow-x-auto whitespace-nowrap mb-8 pb-3">
               <div
                 v-for="word in missedWords"
