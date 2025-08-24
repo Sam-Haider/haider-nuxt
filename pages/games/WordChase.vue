@@ -21,9 +21,12 @@
       </button>
     </div>
 
-    <!-- Game Metadata -->
-    <div v-if="!gameOver" class="w-100 px-14">
-      <div class="text-2xl flex mb-4">
+    <!-- Game Status: Lives, Score, Word Attempt Result-->
+    <div
+      v-if="!gameOver"
+      class="border-b-1 border-white-400 p-3 flex flex-col gap-3"
+    >
+      <div class="text-2xl flex h-12">
         Lives:
         <span class="time text-teal-400 inline-flex gap-4 px-3">
           <Icon
@@ -33,12 +36,12 @@
           />
         </span>
       </div>
-      <div class="text-2xl">
-        Words Captured: <span class="score text-teal-400">{{ score }}</span>
+      <div class="text-2xl h-12">
+        Score: <span class="score text-teal-400">{{ score }}</span>
       </div>
       <div
         v-if="showTargetWord"
-        class="flex justify-center items-center mt-12 items-center gap-3 text-xl"
+        class="flex justify-center items-center items-center gap-3 text-xl h-15"
       >
         <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
           <Icon name="material-symbols:check-circle" class="text-green-500" />
@@ -49,9 +52,10 @@
           >X</span
         ><span class="text-3xl">{{ targetWord }}</span>
       </div>
-      <div v-else class="h-21"></div>
+      <!-- empty space to avoid layout shift -->
+      <div v-else class="h-15"></div>
     </div>
-    <div v-else class="h-41"></div>
+    <div v-else class="h-45"></div>
 
     <!-- Game board/Leters -->
     <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-40 items-center">
