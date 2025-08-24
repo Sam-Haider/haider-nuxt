@@ -74,7 +74,10 @@
       </template>
       <template v-else>
         <div class="w-full px-3">
-          <div v-if="!firstLoad" class="text-sm flex flex-col gap-2 flex-wrap">
+          <div
+            v-if="!firstLoad"
+            class="text-sm flex flex-col gap-2 overflow-x-auto whitespace-nowrap"
+          >
             Completed Words:
             <div class="flex gap-2 flex-wrap">
               <div
