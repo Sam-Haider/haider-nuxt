@@ -40,13 +40,13 @@
         Score: <span class="score text-teal-400">{{ score }}</span>
       </div>
     </div>
-    <div v-else class="h-36"></div>
+    <div v-else class="h-33"></div>
 
     <!-- Game Board/Letters -->
-    <div class="gap-2 justify-center p-3 text-4xl items-center">
+    <div class="gap-2 justify-center text-4xl items-center">
       <template v-if="!gameOver">
-        <div class="flex flex-col gap-4">
-          <div class="flex justify-center gap-3">
+        <div class="flex flex-col gap-4 h-45">
+          <div class="flex justify-center gap-3 px-3 py-6">
             <div
               v-for="idx in 6"
               :key="idx"
@@ -87,13 +87,10 @@
         </div>
       </template>
       <template v-else>
-        <div class="w-full px-3">
-          <div
-            v-if="!firstLoad"
-            class="text-sm flex flex-col gap-2 overflow-x-auto whitespace-nowrap"
-          >
+        <div class="h-45">
+          <div v-if="!firstLoad" class="text-sm flex flex-col gap-2">
             Completed Words:
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex gap-2 overflow-x-auto whitespace-nowrap">
               <div
                 v-for="word in capturedWords"
                 class="border border1 border-teal-400 rounded-4xl px-2"
@@ -102,7 +99,7 @@
               </div>
             </div>
             Missed Words:
-            <div class="flex gap-2 flex-wrap">
+            <div class="flex gap-2 overflow-x-auto whitespace-nowrap mb-8">
               <div
                 v-for="word in missedWords"
                 class="border border1 border-red-500 rounded-4xl px-2"
@@ -111,7 +108,7 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2 justify-center mt-8">
+          <div class="flex gap-2 justify-center">
             <button
               class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
               @click="handlePlay"
