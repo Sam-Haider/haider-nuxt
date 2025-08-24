@@ -139,14 +139,9 @@
           <div class="instructions">
             <div class="text-4xl text-bold">HOW TO PLAY</div>
             <ul class="flex flex-col gap-2 list-disc mt-8">
-              <li>
-                Work with the computer to make as many 6-letter words as
-                possible
-              </li>
-              <li>
-                If you miss a word by playing the wrong letter, you lose a life
-              </li>
-              <li>Lose 3 lives and its game over</li>
+              <li>Make as many 6-letter words as possible</li>
+              <li>Alternate turns with the computer to build the word</li>
+              <li>3 wrong letters = game over</li>
             </ul>
           </div>
         </div>
