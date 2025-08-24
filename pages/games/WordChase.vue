@@ -41,7 +41,7 @@
       </div>
       <div
         v-if="showTargetWord"
-        class="flex justify-center items-center items-center gap-3 text-xl h-15"
+        class="flex justify-center items-center items-center gap-3 text-xl h-12"
       >
         <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
           <Icon name="material-symbols:check-circle" class="text-green-500" />
@@ -53,12 +53,12 @@
         ><span class="text-3xl">{{ targetWord }}</span>
       </div>
       <!-- empty space to avoid layout shift -->
-      <div v-else class="h-15"></div>
+      <div v-else class="h-12"></div>
     </div>
-    <div v-else class="h-45"></div>
+    <div v-else class="h-48"></div>
 
-    <!-- Game board/Leters -->
-    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-40 items-center">
+    <!-- Game Board/Letters -->
+    <div class="my-4 flex gap-2 justify-center p-3 text-4xl h-30 items-center">
       <template v-if="!gameOver">
         <div
           v-for="idx in 6"
