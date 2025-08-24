@@ -39,43 +39,51 @@
       <div class="text-2xl h-12">
         Score: <span class="score text-teal-400">{{ score }}</span>
       </div>
-      <div
-        v-if="showTargetWord"
-        class="flex justify-center items-center items-center gap-3 text-xl h-12"
-      >
-        <span v-if="isCorrectWord" class="text-green-500 text-3xl font-bold">
-          <Icon name="material-symbols:check-circle" class="text-green-500" />
-        </span>
-        <span
-          v-else
-          class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
-          >X</span
-        ><span class="text-3xl">{{ targetWord }}</span>
-      </div>
-      <!-- empty space to avoid layout shift -->
-      <div v-else class="h-12"></div>
     </div>
-    <div v-else class="h-48"></div>
+    <div v-else class="h-36"></div>
 
     <!-- Game Board/Letters -->
-    <div
-      class="my-4 flex gap-2 justify-center p-3 text-4xl h-30 items-center mt-10"
-    >
+    <div class="gap-2 justify-center p-3 text-4xl items-center">
       <template v-if="!gameOver">
-        <div
-          v-for="idx in 6"
-          :key="idx"
-          class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center"
-        >
-          <span
-            class="transition-all duration-500"
-            :class="{
-              'opacity-0 scale-95': !letters[idx - 1],
-              'opacity-100 scale-100': letters[idx - 1],
-            }"
+        <div class="flex flex-col gap-4">
+          <div class="flex justify-center gap-3">
+            <div
+              v-for="idx in 6"
+              :key="idx"
+              class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center"
+            >
+              <span
+                class="transition-all duration-500"
+                :class="{
+                  'opacity-0 scale-95': !letters[idx - 1],
+                  'opacity-100 scale-100': letters[idx - 1],
+                }"
+              >
+                {{ letters[idx - 1] || "" }}
+              </span>
+            </div>
+          </div>
+          <div
+            v-if="showTargetWord"
+            class="flex justify-center items-center items-center gap-3 text-xl h-12"
           >
-            {{ letters[idx - 1] || "" }}
-          </span>
+            <span
+              v-if="isCorrectWord"
+              class="text-green-500 text-3xl font-bold"
+            >
+              <Icon
+                name="material-symbols:check-circle"
+                class="text-green-500"
+              />
+            </span>
+            <span
+              v-else
+              class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
+              >X</span
+            ><span class="text-3xl">{{ targetWord }}</span>
+          </div>
+          <!-- empty space to avoid layout shift -->
+          <div v-else class="h-12"></div>
         </div>
       </template>
       <template v-else>
