@@ -6,11 +6,13 @@
 <!-- show words you captured -->
 
 <template>
-  <div class="max-w-4xl mx-auto mt-8 px-3 h-[100vh] flex flex-col">
-    <!-- Header -->
-    <div class="flex justify-between w-full px-4">
+  <div
+    class="max-w-4xl mx-auto py-5 px-3 h-[100vh] flex flex-col border-1 border-red-400"
+  >
+    <!-- Heading: Title, Rules -->
+    <div class="flex justify-between w-full px-4 items-center">
       <div class="w-16"></div>
-      <div class="text-2xl font-bold mb-4">WordChase</div>
+      <div class="text-2xl font-bold">WordChase</div>
       <button
         class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
         @click="toggleInstructions"
@@ -18,6 +20,7 @@
         Rules
       </button>
     </div>
+
     <!-- Game Metadata -->
     <div v-if="!gameOver" class="w-100 px-14">
       <div class="text-2xl flex mb-4">
