@@ -8,15 +8,8 @@
 <template>
   <div class="max-w-4xl mx-auto py-5 px-3 h-[100vh] flex flex-col">
     <!-- Heading: Title, Rules -->
-    <div class="flex justify-between w-full px-4 items-center">
-      <div class="w-16"></div>
-      <div class="text-2xl font-bold">WordChase</div>
-      <button
-        class="text-md border-1 px-3 py-1 rounded-4xl bg-gradient-to-r bg-cyan-900/20 text-white"
-        @click="toggleInstructions"
-      >
-        Rules
-      </button>
+    <div class="flex justify-center w-full px-4 items-center">
+      <div class="text-3xl font-bold">WordChase</div>
     </div>
 
     <!-- Game Status: Lives, Score, Word Attempt Result-->
@@ -108,12 +101,15 @@
               </div>
             </div>
           </div>
-          <div class="flex gap-2 justify-center">
+          <div class="flex flex-col gap-3 justify-center items-center flex-0">
             <button
               class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
               @click="handlePlay"
             >
               PLAY {{ !firstLoad ? "AGAIN" : "" }}
+            </button>
+            <button class="text-base text-white" @click="toggleInstructions">
+              Rules
             </button>
           </div>
         </div>
@@ -123,12 +119,11 @@
     <!-- Game Status MAIN -->
 
     <Keyboard :gameOver="gameOver" @key-press="clickHandler" class="w-full" />
-
     <div
       v-if="showInstructions"
-      class="fixed inset-5 h-[300px] bg-black bg-opacity-50 flex justify-center items-center z-50"
+      class="fixed inset-5 bg-black bg-opacity-50 flex z-50"
     >
-      <div class="rounded-lg shadow-lg p-6 w-3/4 w-full h-full relative">
+      <div class="rounded-lg shadow-lg p-6 relative">
         <button
           @click="showInstructions = false"
           class="absolute top-1 right-4 text-gray-500 hover:text-gray-700"
@@ -137,7 +132,7 @@
         </button>
         <div class="text-xl px-10 mt-4">
           <div class="instructions">
-            <div class="text-4xl text-bold">HOW TO PLAY</div>
+            <div class="text-4xl text-bold">Rules</div>
             <ul class="flex flex-col gap-2 list-disc mt-8">
               <li>Make as many 6-letter words as possible</li>
               <li>Alternate turns with the computer to build the word</li>
