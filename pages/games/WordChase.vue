@@ -1,10 +1,3 @@
-<!-- Todos: 
-
-- Show summary at the end with definitions
-- Disable keyboard
-- Use only common words from api
-<!-- show words you captured -->
-
 <template>
   <div class="max-w-4xl mx-auto py-5 px-3 h-[100vh] flex flex-col">
     <!-- Heading: Title, Rules -->
@@ -150,6 +143,12 @@ import { ref, computed, watch, onMounted } from "vue";
 import Keyboard from "~/components/WordChase/Keyboard.vue";
 import { useWordList } from "~/composables/WordChase/useWordList";
 
+useHead({
+  title: "WordChase",
+  link: [{ rel: "icon", type: "image/png", href: "/favicon.svg" }],
+});
+
+// Initialize Game
 const { words } = await useWordList();
 const gameWords = computed(() => words.value.filter((w) => w.length === 6));
 
@@ -168,12 +167,14 @@ const firstLoad = ref(true);
 const livesRemaining = ref(3);
 const isKeyboardDisabled = ref(true);
 
+// End Game if Lives are 0
 watch(livesRemaining, (newVal) => {
   if (newVal <= 0) {
     gameOver.value = true;
   }
 });
 
+// Start or Restart Game
 function handlePlay() {
   livesRemaining.value = 3;
   gameOver.value = false;
@@ -192,10 +193,12 @@ function handlePlay() {
   }, 700);
 }
 
+// Click Handle Wrapper (disables clicks when keyboard is disabled)
 const clickHandler = computed(() => {
   return isKeyboardDisabled.value ? () => {} : handleClick;
 });
 
+// Handle User Selection - User's Turn, Then Computer's Turn
 function handleClick(ltr) {
   isKeyboardDisabled.value = true;
   if (gameOver.value) return;
@@ -233,6 +236,7 @@ function handleClick(ltr) {
   }
 }
 
+// Helper to get the next letter and word
 function getNext(lettersArr) {
   // Takes the array of letters played so far and finds all possible matching words
   const matches = gameWords.value.filter((word) => {
@@ -245,14 +249,15 @@ function getNext(lettersArr) {
     return isMatch;
   });
 
-  // Finds a random word from the matches and sets it as the current target word
+  // Finds a random word from the matches and sets it as the computer's current target word
   const nextWord = matches[Math.floor(Math.random() * matches.length)];
 
-  // The next letter to be played is the letter in the new word at the position equal to the length of lettersArr (i.e., the next letter to be played to continue the word)
+  // Finds the next letter to be played
   const nextLetter = nextWord && nextWord[lettersArr.length]?.toLowerCase();
   return { nextWord, nextLetter };
 }
 
+// Watch for Win Condition
 watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
     isCorrectWord.value = true;
@@ -276,6 +281,7 @@ watch(letters, (newVal) => {
   }
 });
 
+// Toggle Instructions Modal
 function toggleInstructions() {
   showInstructions.value = !showInstructions.value;
   if (showInstructions.value) {
@@ -289,6 +295,6 @@ function toggleInstructions() {
 }
 
 onMounted(() => {
-  // useOpenAI();
+  document.body.style.overflow = "hidden";
 });
 </script>
