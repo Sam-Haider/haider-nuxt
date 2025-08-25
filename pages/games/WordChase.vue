@@ -126,7 +126,7 @@
 
     <div
       v-if="showInstructions"
-      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      class="fixed inset-5 h-[300px] bg-black bg-opacity-50 flex justify-center items-center z-50"
     >
       <div class="rounded-lg shadow-lg p-6 w-3/4 w-full h-full relative">
         <button
