@@ -32,11 +32,11 @@
     <div class="gap-2 justify-center text-4xl items-center">
       <template v-if="!gameOver">
         <div class="flex flex-col gap-4 h-45">
-          <div class="flex justify-center gap-3 px-3 py-6">
+          <div class="flex justify-center gap-1 px-3 py-6">
             <div
               v-for="idx in 6"
               :key="idx"
-              class="border border-2 border-white w-14 text-center flex items-center justify-center aspect-square rounded-md"
+              class="border border-2 border-white w-16 text-center flex items-center justify-center aspect-square rounded-md"
             >
               <span
                 class="transition-all duration-500"
@@ -45,7 +45,7 @@
                   'opacity-100 scale-100': letters[idx - 1],
                 }"
               >
-                {{ letters[idx - 1] || "" }}
+                {{ letters[idx - 1]?.toUpperCase() || "" }}
               </span>
             </div>
           </div>
@@ -66,7 +66,7 @@
               v-else
               class="text-red-500 text-lg rounded-4xl px-2 border-1 border-red-500"
               >X</span
-            ><span class="text-3xl">{{ targetWord }}</span>
+            ><span class="text-3xl">{{ targetWord?.toUpperCase() }}</span>
           </div>
           <!-- empty space to avoid layout shift -->
           <div v-else class="h-12"></div>
@@ -81,7 +81,7 @@
                 v-for="word in capturedWords"
                 class="border border1 border-teal-400 rounded-4xl px-2"
               >
-                {{ word }}
+                {{ word?.toUpperCase() }}
               </div>
             </div>
             You Missed:
@@ -90,7 +90,7 @@
                 v-for="word in missedWords"
                 class="border border1 border-red-500 rounded-4xl px-2"
               >
-                {{ word }}
+                {{ word?.toUpperCase() }}
               </div>
             </div>
           </div>
