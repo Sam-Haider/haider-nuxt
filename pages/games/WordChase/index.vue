@@ -101,9 +101,9 @@
             >
               PLAY {{ !firstLoad ? "AGAIN" : "" }}
             </button>
-            <button class="text-base text-white" @click="toggleInstructions">
+            <NuxtLink class="text-base text-white" to="/games/WordChase/rules">
               Rules
-            </button>
+            </NuxtLink>
           </div>
         </div>
       </template>
@@ -112,29 +112,6 @@
     <!-- Game Status MAIN -->
 
     <Keyboard :gameOver="gameOver" @key-press="clickHandler" class="w-full" />
-    <div
-      v-if="showInstructions"
-      class="fixed inset-5 bg-black bg-opacity-50 flex z-50"
-    >
-      <div class="rounded-lg shadow-lg p-6 relative">
-        <button
-          @click="showInstructions = false"
-          class="absolute top-1 right-4 text-gray-500 hover:text-gray-700"
-        >
-          <span class="text-6xl">&times;</span>
-        </button>
-        <div class="text-xl px-10 mt-4">
-          <div class="instructions">
-            <div class="text-4xl text-bold">Rules</div>
-            <ul class="flex flex-col gap-2 list-disc mt-8">
-              <li>Make as many 6-letter words as possible</li>
-              <li>Alternate turns with the computer to build the word</li>
-              <li>3 wrong letters = game over</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -280,19 +257,6 @@ watch(letters, (newVal) => {
     }, 2000);
   }
 });
-
-// Toggle Instructions Modal
-function toggleInstructions() {
-  showInstructions.value = !showInstructions.value;
-  if (showInstructions.value) {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  } else {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-}
 
 onMounted(() => {
   document.body.style.overflow = "hidden";
