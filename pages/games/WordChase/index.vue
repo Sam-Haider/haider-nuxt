@@ -17,13 +17,13 @@
             v-for="i in 3"
             :key="i"
             name="hugeicons:brain-02"
-            class="w-8 h-8 text-teal-400 transition-opacity duration-300"
+            class="w-8 h-8 text-cyan-500 transition-opacity duration-300"
             :class="i <= livesRemaining ? 'opacity-100' : 'opacity-0'"
           />
         </span>
       </div>
       <div class="text-2xl h-12">
-        Score: <span class="score text-teal-400">{{ score }}</span>
+        Score: <span class="score text-yellow-600">{{ score }}</span>
       </div>
     </div>
     <div v-else class="h-33"></div>
@@ -36,7 +36,7 @@
             <div
               v-for="idx in 6"
               :key="idx"
-              class="border border-2 border-teal-400 w-16 h-16 text-center flex items-center justify-center"
+              class="border border-2 border-white w-14 text-center flex items-center justify-center aspect-square rounded-md"
             >
               <span
                 class="transition-all duration-500"
@@ -111,7 +111,11 @@
 
     <!-- Game Status MAIN -->
 
-    <Keyboard :gameOver="gameOver" @key-press="clickHandler" class="w-full" />
+    <Keyboard
+      :isDisabled="isKeyboardDisabled"
+      @key-press="clickHandler"
+      class="w-full"
+    />
   </div>
 </template>
 

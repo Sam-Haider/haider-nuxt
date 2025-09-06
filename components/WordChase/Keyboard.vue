@@ -8,7 +8,7 @@
         :key="key"
         :class="keyClasses"
         :value="key"
-        :disabled="gameOver"
+        :disabled="isDisabled"
         @click="$emit('key-press', key.toLowerCase())"
       >
         {{ key }}
@@ -20,7 +20,7 @@
         :key="key"
         :class="keyClasses"
         :value="key"
-        :disabled="gameOver"
+        :disabled="isDisabled"
         @click="$emit('key-press', key.toLowerCase())"
       >
         {{ key }}
@@ -32,7 +32,7 @@
         :key="key"
         :class="keyClasses"
         :value="key"
-        :disabled="gameOver"
+        :disabled="isDisabled"
         @click="$emit('key-press', key.toLowerCase())"
       >
         {{ key }}
@@ -43,14 +43,14 @@
 
 <script setup>
 const props = defineProps({
-  gameOver: Boolean,
+  isDisabled: Boolean,
 });
 const row1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
 const row2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const row3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
 const keyClasses =
-  "w-[10%] aspect-square rounded-md bg-gray-900 text-lg font-bold text-teal-400 shadow-lg border-2 border-t-gray-600 border-l-gray-600 border-r-gray-800 border-b-gray-800 active:translate-y-[2px] active:border-t-gray-700 active:border-l-gray-700 active:shadow-inner active:bg-gray-800 transition-all duration-75 ease hover:bg-gray-600/50 hover:text-cyan-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/10 after:to-transparent";
+  "w-[10%] aspect-square rounded-md bg-gray-900 text-lg font-bold text-white shadow-lg border-2 border-t-gray-600 border-l-gray-600 border-r-gray-800 border-b-gray-800 active:translate-y-[2px] active:border-t-gray-700 active:border-l-gray-700 active:shadow-inner active:bg-gray-800 transition-all duration-75 ease hover:bg-gray-600/50 hover:text-cyan-200 disabled:opacity-10 disabled:cursor-not-allowed touch-manipulation relative overflow-hidden after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/10 after:to-transparent";
 </script>
 
 <style scoped>
