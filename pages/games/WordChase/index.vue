@@ -169,7 +169,7 @@ function handlePlay() {
   livesRemaining.value = 3;
   gameOver.value = false;
   firstLoad.value = false;
-  time.value = 10;
+  time.value = 120;
   if (intervalId.value) clearInterval(intervalId.value);
   intervalId.value = setInterval(() => {
     if (time.value > 0 && !gameOver.value) {
