@@ -10,20 +10,26 @@
       v-if="!gameOver"
       class="border-b-1 border-white-400 p-3 flex flex-col gap-3"
     >
-      <div class="text-2xl flex h-12">
+      <div class="text-lg flex h-12 items-center">
         Lives: &nbsp;
         <span class="inline-flex gap-4">
           <Icon
             v-for="i in 3"
             :key="i"
             name="hugeicons:brain-02"
-            class="w-8 h-8 text-cyan-500 transition-opacity duration-300"
+            class="w-8 h-8 text-emerald-600 transition-opacity duration-300"
             :class="i <= livesRemaining ? 'opacity-100' : 'opacity-0'"
           />
         </span>
       </div>
-      <div class="text-2xl h-12">
-        Score: <span class="score text-yellow-600">{{ score }}</span>
+      <div class="flex gap-3 items-center">
+        <div class="text-lg h-12">
+          Score: <span class="score font-bold text-amber-400">{{ score }}</span>
+        </div>
+        <div class="text-lg h-12">
+          Time Remaining:
+          <span class="score text-gray-300">{{ minutes }}m {{ seconds }}s</span>
+        </div>
       </div>
     </div>
     <div v-else class="h-33"></div>
@@ -55,7 +61,7 @@
           >
             <span
               v-if="isCorrectWord"
-              class="text-green-500 text-3xl font-bold"
+              class="text-green-500 text-3xl font-bold flex items-center"
             >
               <Icon
                 name="material-symbols:check-circle"
@@ -138,8 +144,9 @@ const gameOver = ref(true);
 const gameCount = ref(0);
 const score = ref(0);
 const isCorrectWord = ref(false);
-const time = ref(60);
-const showInstructions = ref(false);
+const time = ref(120);
+const minutes = computed(() => Math.floor(time.value / 60));
+const seconds = computed(() => time.value % 60);
 const targetWord = ref("");
 const capturedWords = ref([]);
 const missedWords = ref([]);
@@ -147,11 +154,13 @@ const showTargetWord = ref(false);
 const firstLoad = ref(true);
 const livesRemaining = ref(3);
 const isKeyboardDisabled = ref(true);
+const intervalId = ref(null);
 
 // End Game if Lives are 0
 watch(livesRemaining, (newVal) => {
   if (newVal <= 0) {
     gameOver.value = true;
+    isKeyboardDisabled.value = true;
   }
 });
 
@@ -160,7 +169,16 @@ function handlePlay() {
   livesRemaining.value = 3;
   gameOver.value = false;
   firstLoad.value = false;
-  time.value = 60;
+  time.value = 10;
+  if (intervalId.value) clearInterval(intervalId.value);
+  intervalId.value = setInterval(() => {
+    if (time.value > 0 && !gameOver.value) {
+      time.value--;
+    } else if (time.value === 0) {
+      gameOver.value = true;
+      isKeyboardDisabled.value = true;
+    }
+  }, 1000);
   score.value = 0;
   letters.value = [];
   capturedWords.value = [];
@@ -196,7 +214,9 @@ function handleClick(ltr) {
         const { nextLetter, nextWord } = getNext([]);
         targetWord.value = nextWord || "";
         letters.value = nextLetter ? [nextLetter] : [];
-        isKeyboardDisabled.value = false;
+        if (livesRemaining.value > 0) {
+          isKeyboardDisabled.value = false;
+        }
       }, 500);
     }, 2000);
     return;
