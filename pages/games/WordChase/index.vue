@@ -81,7 +81,10 @@
       <template v-else>
         <div class="h-45">
           <div v-if="!firstLoad" class="text-sm flex flex-col gap-2">
-            You Captured:
+            <div class="flex gap-1">
+              Captured Words:
+              <span class="text-amber-400">{{ capturedWords.length }}</span>
+            </div>
             <div class="flex gap-2 overflow-x-auto whitespace-nowrap pb-3">
               <div
                 v-for="word in capturedWords"
@@ -90,7 +93,7 @@
                 {{ word?.toUpperCase() }}
               </div>
             </div>
-            You Missed:
+            Missed Words:
             <div class="flex gap-2 overflow-x-auto whitespace-nowrap mb-8 pb-3">
               <div
                 v-for="word in missedWords"
