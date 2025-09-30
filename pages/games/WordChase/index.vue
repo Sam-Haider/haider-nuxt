@@ -85,17 +85,15 @@
         <template v-if="timeVariant === 'shot'">
           <div class="flex items-center gap-2 h-12">
             <span class="text-lg">Turn Timer:</span>
-            <template v-if="!isKeyboardDisabled">
-              <span
-                class="score"
-                :class="{
-                  'text-red-400': shotClockTime <= 3,
-                  'text-yellow-400': shotClockTime >= 4 && shotClockTime <= 6,
-                  'text-gray-300': shotClockTime > 6,
-                }"
-                >{{ shotClockTime }}s</span
-              >
-            </template>
+            <span
+              class="score"
+              :class="{
+                'text-red-400': shotClockTime <= 3,
+                'text-yellow-400': shotClockTime >= 4 && shotClockTime <= 6,
+                'text-gray-300': shotClockTime > 6,
+              }"
+              >{{ shotClockTime === null ? "--" : shotClockTime + "s" }}</span
+            >
           </div>
         </template>
         <div class="flex flex-col gap-4 h-45">
@@ -220,7 +218,8 @@ const livesRemaining = ref(3);
 const isKeyboardDisabled = ref(true);
 const intervalId = ref(null);
 const timeVariant = ref("shot");
-const shotClockTime = ref(10);
+const shotClockDuration = ref(12); // seconds per word - configurable
+const shotClockTime = ref(12);
 const shotClockIntervalId = ref(null);
 
 // End Game if Lives are 0
@@ -260,7 +259,7 @@ function handlePlay() {
       }
     }, 1000);
   } else {
-    shotClockTime.value = 10;
+    shotClockTime.value = shotClockDuration.value;
   }
 
   score.value = 0;
@@ -283,14 +282,10 @@ function handlePlay() {
 
 // Shot Clock Functions
 function startShotClock() {
-  shotClockTime.value = 10;
+  shotClockTime.value = shotClockDuration.value;
   if (shotClockIntervalId.value) clearInterval(shotClockIntervalId.value);
   shotClockIntervalId.value = setInterval(() => {
-    if (
-      shotClockTime.value > 0 &&
-      !gameOver.value &&
-      !isKeyboardDisabled.value
-    ) {
+    if (shotClockTime.value > 0 && !gameOver.value) {
       shotClockTime.value--;
     }
   }, 1000);
@@ -333,14 +328,15 @@ function handleClick(ltr) {
   isKeyboardDisabled.value = true;
   if (gameOver.value) return;
 
-  // Stop shot clock when user makes a move
-  if (timeVariant.value === "shot") {
-    stopShotClock();
-  }
+  // Don't stop shot clock on individual letter plays - it runs for the whole word
 
   gameCount.value++;
   const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
   if (!nextWord) {
+    // Stop shot clock immediately when wrong letter is determined
+    if (timeVariant.value === "shot") {
+      stopShotClock();
+    }
     missedWords.value.push(targetWord.value);
     showTargetWord.value = true;
     setTimeout(() => {
@@ -353,7 +349,7 @@ function handleClick(ltr) {
         letters.value = nextLetter ? [nextLetter] : [];
         if (livesRemaining.value > 0) {
           isKeyboardDisabled.value = false;
-          // Restart shot clock for next turn
+          // Start shot clock for new word
           if (timeVariant.value === "shot") {
             startShotClock();
           }
@@ -373,10 +369,7 @@ function handleClick(ltr) {
       setTimeout(() => {
         letters.value = [...letters.value, nextLetter];
         isKeyboardDisabled.value = false;
-        // Restart shot clock for next turn
-        if (timeVariant.value === "shot") {
-          startShotClock();
-        }
+        // Don't restart shot clock - it continues running for the whole word
       }, 1500);
     }
   }
@@ -406,7 +399,7 @@ function getNext(lettersArr) {
 // Watch for Win Condition
 watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
-    // Stop shot clock when word is completed
+    // Stop shot clock immediately when word is completed
     if (timeVariant.value === "shot") {
       stopShotClock();
     }
@@ -427,7 +420,7 @@ watch(letters, (newVal) => {
         targetWord.value = nextWord || "";
         letters.value = nextLetter ? [nextLetter] : [];
         isKeyboardDisabled.value = false;
-        // Restart shot clock for next turn
+        // Start shot clock for new word
         if (timeVariant.value === "shot") {
           startShotClock();
         }
