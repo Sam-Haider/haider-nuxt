@@ -16,8 +16,8 @@
           <div
             class="absolute top-1 bottom-1 bg-teal-700 rounded-md transition-all duration-300 ease-in-out"
             :class="{
-              'left-1 w-[83px]': timeVariant === 'shot',
-              'left-[88px] w-[84px]': timeVariant === 'total',
+              'left-1 right-1/2': timeVariant === 'shot',
+              'left-1/2 right-1': timeVariant === 'total',
             }"
           ></div>
           <button
