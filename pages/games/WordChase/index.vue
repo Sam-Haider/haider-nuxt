@@ -83,17 +83,24 @@
     <div class="gap-2 justify-center text-4xl items-center">
       <template v-if="!gameOver">
         <template v-if="timeVariant === 'shot'">
-          <div class="flex items-center gap-2 h-12">
-            <span class="text-lg">Turn Timer:</span>
-            <span
-              class="score"
-              :class="{
-                'text-red-400': shotClockTime <= 3,
-                'text-yellow-400': shotClockTime >= 4 && shotClockTime <= 6,
-                'text-gray-300': shotClockTime > 6,
-              }"
-              >{{ shotClockTime === null ? "--" : shotClockTime + "s" }}</span
+          <div class="flex justify-center items-center h-12">
+            <div
+              class="mt-3 bg-gray-900 border-2 border-gray-600 rounded-lg px-4 py-2 min-w-[80px] flex justify-center items-center"
             >
+              <span
+                class="text-2xl font-bold font-mono"
+                :class="{
+                  'text-red-400': shotClockTime !== null && shotClockTime <= 3,
+                  'text-yellow-400':
+                    shotClockTime !== null &&
+                    shotClockTime >= 4 &&
+                    shotClockTime <= 6,
+                  'text-green-200': shotClockTime !== null && shotClockTime > 6,
+                  'text-gray-300': shotClockTime === null,
+                }"
+                >{{ shotClockTime === null ? "--" : `0:${shotClockTime.toString().padStart(2, '0')}` }}</span
+              >
+            </div>
           </div>
         </template>
         <div class="flex flex-col gap-4 h-45">
