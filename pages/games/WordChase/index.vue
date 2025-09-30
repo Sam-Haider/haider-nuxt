@@ -5,6 +5,47 @@
       <div class="text-3xl font-bold">WordChase</div>
     </div>
 
+    <!-- Time Variant Toggle -->
+    <div v-if="gameOver" class="flex justify-center w-full px-4 py-3">
+      <div class="flex gap-3 items-center text-sm">
+        <span class="text-gray-300">Mode:</span>
+        <div
+          class="relative border border-gray-500 rounded-lg p-1 flex bg-gray-800"
+        >
+          <!-- Sliding background -->
+          <div
+            class="absolute top-1 bottom-1 bg-teal-700 rounded-md transition-all duration-300 ease-in-out"
+            :class="{
+              'left-1 w-[83px]': timeVariant === 'shot',
+              'left-[88px] w-[84px]': timeVariant === 'total',
+            }"
+          ></div>
+          <button
+            @click="timeVariant = 'shot'"
+            class="relative z-10 px-3 py-1 rounded-md transition-colors duration-300"
+            :class="
+              timeVariant === 'shot'
+                ? 'text-white'
+                : 'text-gray-300 hover:text-white'
+            "
+          >
+            Shot Clock
+          </button>
+          <button
+            @click="timeVariant = 'total'"
+            class="relative z-10 px-3 py-1 rounded-md transition-colors duration-300"
+            :class="
+              timeVariant === 'total'
+                ? 'text-white'
+                : 'text-gray-300 hover:text-white'
+            "
+          >
+            Total Time
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Game Status: Lives, Score, Word Attempt Result-->
     <div
       v-if="!gameOver"
@@ -27,8 +68,12 @@
           Score: <span class="score font-bold text-amber-400">{{ score }}</span>
         </div>
         <div class="text-lg h-12">
-          Time Remaining:
-          <span class="score text-gray-300">{{ minutes }}m {{ seconds }}s</span>
+          <template v-if="timeVariant === 'total'">
+            Time Remaining:
+            <span class="score text-gray-300"
+              >{{ minutes }}m {{ seconds }}s</span
+            >
+          </template>
         </div>
       </div>
     </div>
@@ -37,6 +82,22 @@
     <!-- Game Board/Letters -->
     <div class="gap-2 justify-center text-4xl items-center">
       <template v-if="!gameOver">
+        <template v-if="timeVariant === 'shot'">
+          <div class="flex items-center gap-2 h-12">
+            <span class="text-lg">Turn Timer:</span>
+            <template v-if="!isKeyboardDisabled">
+              <span
+                class="score"
+                :class="{
+                  'text-red-400': shotClockTime <= 3,
+                  'text-yellow-400': shotClockTime >= 4 && shotClockTime <= 6,
+                  'text-gray-300': shotClockTime > 6,
+                }"
+                >{{ shotClockTime }}s</span
+              >
+            </template>
+          </div>
+        </template>
         <div class="flex flex-col gap-4 h-45">
           <div class="flex justify-center gap-1 px-3 py-6">
             <div
@@ -105,7 +166,7 @@
           </div>
           <div class="flex flex-col gap-3 justify-center items-center flex-0">
             <button
-              class="text-3xl border-1 border-teal-400 px-5 py-2 rounded-4xl text-white bg-cyan-900/20"
+              class="text-2xl border-1 border-teal-400 px-4 py-1.5 rounded-4xl text-white bg-cyan-900/20"
               @click="handlePlay"
             >
               PLAY {{ !firstLoad ? "AGAIN" : "" }}
@@ -158,6 +219,9 @@ const firstLoad = ref(true);
 const livesRemaining = ref(3);
 const isKeyboardDisabled = ref(true);
 const intervalId = ref(null);
+const timeVariant = ref("shot");
+const shotClockTime = ref(10);
+const shotClockIntervalId = ref(null);
 
 // End Game if Lives are 0
 watch(livesRemaining, (newVal) => {
@@ -167,21 +231,38 @@ watch(livesRemaining, (newVal) => {
   }
 });
 
+// Watch for shot clock expiration
+watch(shotClockTime, (newVal) => {
+  if (newVal <= 0 && timeVariant.value === "shot" && !gameOver.value) {
+    handleShotClockExpiry();
+  }
+});
+
 // Start or Restart Game
 function handlePlay() {
   livesRemaining.value = 3;
   gameOver.value = false;
   firstLoad.value = false;
-  time.value = 120;
+
+  // Clear existing timers
   if (intervalId.value) clearInterval(intervalId.value);
-  intervalId.value = setInterval(() => {
-    if (time.value > 0 && !gameOver.value) {
-      time.value--;
-    } else if (time.value === 0) {
-      gameOver.value = true;
-      isKeyboardDisabled.value = true;
-    }
-  }, 1000);
+  if (shotClockIntervalId.value) clearInterval(shotClockIntervalId.value);
+
+  // Initialize timers based on variant
+  if (timeVariant.value === "total") {
+    time.value = 120;
+    intervalId.value = setInterval(() => {
+      if (time.value > 0 && !gameOver.value) {
+        time.value--;
+      } else if (time.value === 0) {
+        gameOver.value = true;
+        isKeyboardDisabled.value = true;
+      }
+    }, 1000);
+  } else {
+    shotClockTime.value = 10;
+  }
+
   score.value = 0;
   letters.value = [];
   capturedWords.value = [];
@@ -192,7 +273,54 @@ function handlePlay() {
     targetWord.value = nextWord || "";
     letters.value = nextLetter ? [nextLetter] : [];
     isKeyboardDisabled.value = false;
+
+    // Start shot clock if in shot clock mode
+    if (timeVariant.value === "shot") {
+      startShotClock();
+    }
   }, 700);
+}
+
+// Shot Clock Functions
+function startShotClock() {
+  shotClockTime.value = 10;
+  if (shotClockIntervalId.value) clearInterval(shotClockIntervalId.value);
+  shotClockIntervalId.value = setInterval(() => {
+    if (
+      shotClockTime.value > 0 &&
+      !gameOver.value &&
+      !isKeyboardDisabled.value
+    ) {
+      shotClockTime.value--;
+    }
+  }, 1000);
+}
+
+function stopShotClock() {
+  if (shotClockIntervalId.value) {
+    clearInterval(shotClockIntervalId.value);
+    shotClockIntervalId.value = null;
+  }
+}
+
+function handleShotClockExpiry() {
+  stopShotClock();
+  livesRemaining.value--;
+  isKeyboardDisabled.value = true;
+
+  if (livesRemaining.value > 0) {
+    // Reset for next turn
+    setTimeout(() => {
+      letters.value = [];
+      setTimeout(() => {
+        const { nextLetter, nextWord } = getNext([]);
+        targetWord.value = nextWord || "";
+        letters.value = nextLetter ? [nextLetter] : [];
+        isKeyboardDisabled.value = false;
+        startShotClock();
+      }, 500);
+    }, 1000);
+  }
 }
 
 // Click Handle Wrapper (disables clicks when keyboard is disabled)
@@ -204,6 +332,12 @@ const clickHandler = computed(() => {
 function handleClick(ltr) {
   isKeyboardDisabled.value = true;
   if (gameOver.value) return;
+
+  // Stop shot clock when user makes a move
+  if (timeVariant.value === "shot") {
+    stopShotClock();
+  }
+
   gameCount.value++;
   const { nextWord, nextLetter } = getNext([...letters.value, ltr], false);
   if (!nextWord) {
@@ -219,6 +353,10 @@ function handleClick(ltr) {
         letters.value = nextLetter ? [nextLetter] : [];
         if (livesRemaining.value > 0) {
           isKeyboardDisabled.value = false;
+          // Restart shot clock for next turn
+          if (timeVariant.value === "shot") {
+            startShotClock();
+          }
         }
       }, 500);
     }, 2000);
@@ -235,6 +373,10 @@ function handleClick(ltr) {
       setTimeout(() => {
         letters.value = [...letters.value, nextLetter];
         isKeyboardDisabled.value = false;
+        // Restart shot clock for next turn
+        if (timeVariant.value === "shot") {
+          startShotClock();
+        }
       }, 1500);
     }
   }
@@ -264,6 +406,11 @@ function getNext(lettersArr) {
 // Watch for Win Condition
 watch(letters, (newVal) => {
   if (newVal.length === 6 && newVal[5] !== "") {
+    // Stop shot clock when word is completed
+    if (timeVariant.value === "shot") {
+      stopShotClock();
+    }
+
     isCorrectWord.value = true;
     showTargetWord.value = true;
     capturedWords.value.push(targetWord.value);
@@ -280,6 +427,10 @@ watch(letters, (newVal) => {
         targetWord.value = nextWord || "";
         letters.value = nextLetter ? [nextLetter] : [];
         isKeyboardDisabled.value = false;
+        // Restart shot clock for next turn
+        if (timeVariant.value === "shot") {
+          startShotClock();
+        }
       }, 500);
     }, 2000);
   }
