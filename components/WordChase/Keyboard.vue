@@ -70,9 +70,12 @@ const keyClasses =
   bottom: -4px;
   border-radius: 12px;
   background: linear-gradient(
-    90deg,
-    oklch(59.6% 0.145 163.225),
-    oklch(82.8% 0.189 84.429)
+    120deg,
+    #680da4,
+    #234566,
+    #234566,
+    #0d7377,
+    #4b07d3
   );
   background-size: 300% 100%;
   animation: moveGradient 8s linear infinite;
